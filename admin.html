@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Админ-панель | Pit-Stop</title>
+  <link rel="stylesheet" href="admin/admin.css">
+</head>
+<body>
+  <header class="admin-top">
+    <h1>Админ-панель Pit-Stop</h1>
+    <div class="admin-actions">
+      <a href="glav.html" class="btn btn-ghost">На главную</a>
+      <a href="o_nas.html" class="btn btn-ghost">Отзывы на сайте</a>
+      <button type="button" id="admin-logout" class="btn btn-primary">Выйти</button>
+    </div>
+  </header>
+
+  <div class="admin-wrap">
+    <div id="admin-flash" class="flash hidden" role="status"></div>
+    <section class="admin-section">
+      <h2>Пользователи</h2>
+      <table class="admin-table" id="users-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Имя</th>
+            <th>Телефон</th>
+            <th>Роль</th>
+            <th>Регистрация</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section class="admin-section">
+      <h2>Отзывы (редактирование)</h2>
+      <p class="muted" style="margin-top:0">Изменения отображаются на странице «О нас».</p>
+      <div id="reviews-admin"></div>
+    </section>
+
+    <section class="admin-section">
+      <h2>Акции на главной</h2>
+      <p class="muted" style="margin-top:0">Три баннера в блоке «Акции и предложения» на <a href="glav.html" style="color:#9aa0a6">главной</a>.</p>
+      <div class="promo-grid" id="promo-admin"></div>
+    </section>
+  </div>
+
+  <script src="admin/admin.js"></script>
+</body>
+</html>

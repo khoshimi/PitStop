@@ -1,0 +1,201 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: #0f1114;
+  color: #e8eaed;
+}
+
+.admin-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background: #1a1d23;
+  border-bottom: 1px solid #2d323c;
+}
+
+.admin-top h1 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.admin-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.admin-actions a,
+.admin-actions button {
+  font-size: 0.9rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  font: inherit;
+}
+
+.btn-primary {
+  background: #c41e3a;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #a01830;
+}
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid #3d4450;
+  color: #e8eaed;
+}
+
+.btn-ghost:hover {
+  background: #2d323c;
+}
+
+.btn-small {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8rem;
+}
+
+.admin-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+#admin-flash {
+  margin-bottom: 1rem;
+}
+
+.admin-section {
+  margin-bottom: 2.5rem;
+}
+
+.admin-section h2 {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+  color: #f0f2f5;
+  border-bottom: 1px solid #2d323c;
+  padding-bottom: 0.5rem;
+}
+
+table.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.admin-table th,
+.admin-table td {
+  text-align: left;
+  padding: 0.6rem 0.5rem;
+  border-bottom: 1px solid #2d323c;
+  vertical-align: top;
+}
+
+.admin-table th {
+  color: #9aa0a6;
+  font-weight: 500;
+}
+
+.admin-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.muted {
+  color: #9aa0a6;
+  font-size: 0.85rem;
+}
+
+.review-edit {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.review-edit input,
+.review-edit textarea {
+  width: 100%;
+  padding: 0.45rem 0.55rem;
+  border-radius: 4px;
+  border: 1px solid #3d4450;
+  background: #15171c;
+  color: #e8eaed;
+  font: inherit;
+}
+
+.review-edit textarea {
+  min-height: 72px;
+  resize: vertical;
+}
+
+.promo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.promo-card {
+  background: #1a1d23;
+  border: 1px solid #2d323c;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.promo-card img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 6px;
+  background: #0f1114;
+  margin-bottom: 0.75rem;
+}
+
+.promo-card label {
+  display: block;
+  font-size: 0.8rem;
+  color: #9aa0a6;
+  margin-bottom: 0.35rem;
+}
+
+.promo-card input[type="file"] {
+  width: 100%;
+  font-size: 0.8rem;
+}
+
+.flash {
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.flash-ok {
+  background: rgba(46, 160, 67, 0.2);
+  border: 1px solid #2ea043;
+  color: #aff5b4;
+}
+
+.flash-err {
+  background: rgba(248, 81, 73, 0.15);
+  border: 1px solid #f85149;
+  color: #ffb1af;
+}
+
+.hidden {
+  display: none !important;
+}

@@ -1,0 +1,461 @@
+@font-face {
+    font-family: 'osn';
+    src: url('Dimica-Light.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'Zag';
+    src: url('DrukCyr-HeavyItalic.ttf') format('opentype');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    background: url(Group\ 65.png) no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.form-box {
+    position: relative;
+    width: 378px;
+    border-radius: 26px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+h2 {
+    font-size: 48px;
+    color: #7D0000;
+    text-align: center;
+    font-family: 'Zag';
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+
+.inputbox {
+    position: relative;
+    margin: 25px 0;
+    width: 310px;
+    border-bottom: 2px solid #fff;
+    transition: border-color 0.3s ease;
+}
+
+.inputbox:focus-within {
+    border-bottom-color: #7D0000;
+}
+
+.inputbox label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 1em;
+    pointer-events: none;
+    transition: 0.5s;
+}
+
+.inputbox input {
+    width: 100%;
+    height: 50px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    padding: 0 35px 0 5px;
+    color: #fff;
+}
+
+input:focus ~ label,
+input:valid ~ label,
+input.has-value ~ label {
+    top: -5px;
+    font-size: 0.85em;
+    color: #7D0000;
+}
+
+.inputbox ion-icon {
+    position: absolute;
+    right: 8px;
+    color: #fff;
+    font-size: 1.2em;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: color 0.3s ease;
+}
+
+.inputbox:focus-within ion-icon {
+    color: #7D0000;
+}
+
+/* Стили для чекбоксов */
+.checkbox-group {
+    margin: 20px 0;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkbox-input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkbox-custom {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #fff;
+    border-radius: 4px;
+    display: inline-block;
+    position: relative;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+}
+
+.checkbox-input:checked + .checkbox-custom {
+    background: #7D0000;
+    border-color: #7D0000;
+}
+
+.checkbox-input:checked + .checkbox-custom::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
+}
+
+.checkbox-text {
+    color: #fff;
+    font-size: 0.85em;
+}
+
+/* Регистрация */
+.register {
+    font-size: 0.9em;
+    color: #fff;
+    text-align: center;
+    margin: 25px 0 10px;
+}
+
+.register p a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+}
+
+.register p a:hover {
+    text-decoration: underline;
+    color: #7D0000;
+}
+
+/* Кнопка */
+button {
+    width: 100%;
+    height: 40px;
+    border-radius: 40px;
+    background: #fff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    color: #7D0000;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #7D0000;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(191, 64, 105, 0.3);
+}
+
+/* Сообщение об ошибке */
+.error-message {
+    color: #ff6b6b;
+    font-size: 0.85em;
+    margin-top: 10px;
+    text-align: center;
+    min-height: 40px;
+}
+/* Добавьте эти стили в ваш существующий style.css */
+
+/* Переключатель между формами */
+.form-toggle {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.form-toggle button {
+    width: auto;
+    padding: 8px 20px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    color: #fff;
+    font-size: 0.9em;
+    margin-top: 0;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.form-toggle button:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.form-toggle button.active {
+    background: rgba(191, 64, 105, 0.3);
+    border-color: #7D0000;
+    color: #fff;
+}
+
+/* Добавьте эти стили в ваш существующий style.css */
+
+.hidden {
+    display: none;
+}
+
+/* Стили для переключающих ссылок */
+.switch-link {
+    font-size: 0.9em;
+    color: #fff;
+    text-align: center;
+    margin: 15px 0 10px;
+}
+
+.switch-link p a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.switch-link p a:hover {
+    text-decoration: underline;
+    color: #7D0000;
+}
+
+/* Чекбоксы */
+.checkbox-group {
+    margin: 15px 0;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkbox-input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkbox-custom {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #fff;
+    border-radius: 4px;
+    display: inline-block;
+    position: relative;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.checkbox-input:checked + .checkbox-custom {
+    background: #7D0000;
+    border-color: #7D0000;
+}
+
+.checkbox-input:checked + .checkbox-custom::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
+}
+
+.checkbox-text {
+    color: #fff;
+    font-size: 0.85em;
+}
+
+/* Запомнить меня */
+.forget {
+    display: flex;
+    justify-content: flex-start;
+    margin: 15px 0 10px;
+    font-size: 0.9em;
+    color: #fff;
+}
+
+.forget label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.forget label input {
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+/* Адаптация формы */
+.form-box {
+    min-height: 620px;
+}
+/* ========== СТИЛИ ДЛЯ ФОРМЫ ВХОДА С ДВУМЯ ПОЛЯМИ ========== */
+
+/* Плавное переключение форм */
+.auth-form {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.auth-form.hidden {
+    display: none;
+}
+
+/* Улучшенный чекбокс "запомнить меня" */
+.remember-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.remember-label input {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    cursor: pointer;
+    accent-color: #7D0000;
+}
+
+.remember-label span {
+    color: #fff;
+    font-size: 0.9em;
+}
+
+/* Улучшенная кнопка */
+button {
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    background: #7d000000;
+    border: 3px solid #7D0000;
+    outline: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: #ffffff;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+    font-family: 'Zag';
+}
+
+button:hover {
+    background: #7D0000;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* Анимация появления ошибки */
+.error-message {
+    color: #7D0000;
+    font-size: 0.85em;
+    margin-top: 10px;
+    text-align: center;
+    min-height: 40px;
+    padding: 5px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+/* Стиль для успешного сообщения */
+.error-message:contains("успешна"),
+.error-message:contains("успешно") {
+    background: rgba(81, 207, 102, 0.1);
+}
+
+/* Улучшенный фон формы */
+.form-box {
+    background: #9f9f9f61;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+
+
+/* Иконки в полях ввода */
+.inputbox ion-icon {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.inputbox:focus-within ion-icon {
+    color: #7D0000;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 480px) {
+    .form-box {
+        width: 90%;
+        padding: 20px 15px;
+        min-height: auto;
+    }
+    
+    .inputbox {
+        width: 100%;
+    }
+    
+    h2 {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+    }
+    
+    .checkbox-text {
+        font-size: 0.75em;
+    }
+    
+    button {
+        height: 40px;
+        font-size: 0.9em;
+    }
+}
+p{
+    font-family: 'osn';
+}

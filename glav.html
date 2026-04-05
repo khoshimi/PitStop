@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pit-Stop</title>
+    <link rel="stylesheet" href="1_glav/syle.css">
+</head>
+<body>
+    <div class="fon">
+        <video autoplay muted loop playsinline src="1_glav/fon.mp4" class="video"></video>
+        <div class="slide-up-text">
+            <p>ПИТ-СТОП:<br>
+            Смотри Формулу 1 с атмосферой скорости</p>
+        </div>  
+        <header id="main-header">
+            <div class="header-container">
+                <div class="logo">
+                    <a href="glav.html"><img src="1_glav/logo.png" alt="Pit-Stop"></a>
+                </div>
+                <nav class="main-nav">
+                    <a href="glav.html">Главная</a>
+                    <a href="menu.html">Меню</a>
+                    <a href="rab.html">Работа</a>
+                    <a href="bron.html">Бронь</a>
+                    <a href="o_nas.html">Контакты</a>
+                </nav>
+                <div class="header-actions">
+                    <a href="profil.html" class="profile-icon">
+                        <img width="32" height="32" src="https://img.icons8.com/windows/96/user-male-circle.png" alt="profile">
+                    </a>
+                    <a href="korzina.html" class="cart-icon">
+                        <img width="28" height="28" src="https://img.icons8.com/pastel-glyph/64/shopping-cart--v1.png" alt="cart">
+                    </a>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <input type="checkbox" id="menuToggle" class="menu-toggle">
+    <label for="menuToggle" class="burger-container">
+        <div class="burger-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </label>
+    
+    <div class="nav-menu">
+        <div class="nav-menu-inner">
+            <p class="zagbur"><b>Компания</b></p>
+            <a href="glav.html" class="nav-item">Главная</a>
+            <a href="o_nas.html" class="nav-item">О нас</a>
+            <a href="bron.html" class="nav-item">Бронь</a>
+            
+            <p class="zagbur"><b>Меню</b></p>
+            <a href="napit.html" class="nav-item">Напитки</a>
+            <a href="zackus.html" class="nav-item">Закуски</a>
+            <a href="eda.html" class="nav-item">Еда</a>
+            
+            <p class="zagbur"><b>Работа</b></p>
+            <a href="bar.html" class="nav-item">Бариста</a>
+            <a href="povar.html" class="nav-item">Повар</a>
+            <a href="ofic.html" class="nav-item">Официант</a>
+        </div>
+    </div>
+    <label for="menuToggle" class="overlay"></label>
+
+    <!-- Блок с горизонтальным скроллом -->
+    <section class="race-scroll-section scroll-animate">
+        <div class="section-title">
+            <h1>Почему выбирают нас</h1>
+        </div>
+
+        <div class="race-track-container">
+            <div class="horizontal-scroll" id="horScroll">
+                <div class="scroll-track">
+                    <div class="race-card">
+                        <img src="1_glav/kart1.png" alt="Карточка 1">
+                    </div>
+                    <div class="race-card">
+                        <img src="1_glav/kart2.png" alt="Карточка 2">
+                    </div>
+                    <div class="race-card">
+                        <img src="1_glav/kart3.png" alt="Карточка 3">
+                    </div>
+                    <div class="race-card">
+                        <img src="1_glav/kart1.png" alt="Карточка 4">
+                    </div>
+                    <div class="race-card">
+                        <img src="1_glav/kart2.png" alt="Карточка 5">
+                    </div>
+                    <div class="race-card">
+                        <img src="1_glav/kart3.png" alt="Карточка 6">
+                    </div>
+                </div>
+            </div>
+
+            <div class="custom-scrollbar">
+                <div class="scroll-track-bg"></div>
+                <div class="scroll-thumb" id="scrollThumb">
+                    <div class="f1-car"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Блок с Гран-При -->
+    <section class="gp-section scroll-animate">
+        <p class="zag_gp">СЛЕДУЮЩИЙ ГРАН-ПРИ</p>
+        <div class="gp">
+            <div class="gp_op">
+                <p class="gp_t">до гп осталось:</p>
+                <div class="gonka">
+                    <div class="countdown-container">
+                        <div class="time-box">
+                            <span id="hours">00</span>
+                            <span class="time-label">часов</span>
+                        </div>
+                        <div class="time-box">
+                            <span id="minutes">00</span>
+                            <span class="time-label">минут</span>
+                        </div>
+                        <div class="time-box">
+                            <span id="seconds">00</span>
+                            <span class="time-label">секунд</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="gp_t">не можешь прийти к нам?<br>смотри <a href="">трансляцию</a> прямо на сайте</p>
+                <img src="1_glav/болид (1).png" alt="" class="bolid scroll-left">
+                <p class="gp_t">Смотрим Гран-при Японии вместе. Горячие блюда, холодные напитки, атмосфера скорости.</p>
+                <p class="gp_t">успей <a href="">забронировать</a> столик</p>
+            </div>
+            <div>
+                <img src="1_glav/image 6 (2).png" alt="" class="gp_img">
+            </div>
+        </div>
+    </section>
+
+    <!-- Блок с акциями -->
+    <section class="akc_blok scroll-animate">
+        <p class="akc_zag">Акции и предложения</p>
+        <div class="akc_cart">
+            <a href="menu.html"><img id="promo-img-0" src="1_glav/Group 54.png" alt="Акция 1"></a>
+            <a href="menu.html"><img id="promo-img-1" src="1_glav/Group 55.png" alt="Акция 2"></a>
+            <a href="menu.html"><img id="promo-img-2" src="1_glav/Group 56.png" alt="Акция 3"></a>
+        </div>
+        <a href="menu.html">перейти в меню</a>
+    </section>
+
+    <footer>
+        <img src="1_glav/подвал.png" alt="">
+    </footer>
+
+    <script src="1_glav/promos-load.js"></script>
+    <script src="1_glav/script.js"></script>
+</body>
+</html>

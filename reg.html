@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация | Pit-Stop</title>
+    <link rel="stylesheet" href="5_reg/style.css">
+</head>
+<body>
+    <section>
+        <div class="form-box">
+            <div class="form-value">
+                <!-- Форма регистрации -->
+                <form id="registerForm" class="auth-form">
+                    <h2>Регистрация</h2>
+                    
+                    <div class="inputbox">
+                        <ion-icon name="person-outline"></ion-icon>
+                        <input type="text" id="registerName" required autocomplete="off">
+                        <label for="registerName">Имя</label>
+                    </div>
+                    
+                    <div class="inputbox">
+                        <ion-icon name="call-outline"></ion-icon>
+                        <input type="tel" id="registerPhone" required placeholder="+7 (___) ___-__-__">
+                        <label for="registerPhone">Номер телефона</label>
+                    </div>
+                    
+                    <div class="inputbox">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                        <input type="password" id="registerPassword" required autocomplete="new-password" minlength="6">
+                        <label for="registerPassword">Пароль</label>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="registerTermsAgree" class="checkbox-input">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">я согласен(а) с условиями пользования</span>
+                        </label>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="registerDataAgree" class="checkbox-input">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">я даю согласие на обработку персональных данных</span>
+                        </label>
+                    </div>
+                    
+                    <div class="switch-link">
+                        <p>Уже есть профиль? <a href="#" id="switchToLogin">войти</a></p>
+                    </div>
+                    
+                    <div class="error-message" id="registerError"></div>
+                    <button type="submit">Регистрация</button>
+                </form>
+
+                <!-- Форма входа (с именем, телефоном и галочками) -->
+                <form id="loginForm" class="auth-form hidden">
+                    <h2>Вход</h2>
+                    
+                    <div class="inputbox">
+                        <ion-icon name="person-outline"></ion-icon>
+                        <input type="text" id="loginName" required autocomplete="off">
+                        <label for="loginName">Имя</label>
+                    </div>
+                    
+                    <div class="inputbox">
+                        <ion-icon name="call-outline"></ion-icon>
+                        <input type="tel" id="loginPhone" required placeholder="+7 (___) ___-__-__">
+                        <label for="loginPhone">Номер телефона</label>
+                    </div>
+                    
+                    <div class="inputbox">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                        <input type="password" id="loginPassword" required autocomplete="current-password">
+                        <label for="loginPassword">Пароль</label>
+                    </div>
+                    
+                    <!-- Галочки для формы входа -->
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="loginTermsAgree" class="checkbox-input">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">я согласен(а) с условиями пользования</span>
+                        </label>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="loginDataAgree" class="checkbox-input">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">я даю согласие на обработку персональных данных</span>
+                        </label>
+                    </div>
+                    
+                    <div class="forget">
+                        <label class="remember-label">
+                            <input type="checkbox" id="rememberMe">
+                            <span>запомнить меня</span>
+                        </label>
+                    </div>
+                    
+                    <div class="switch-link">
+                        <p>Нет профиля? <a href="#" id="switchToRegister">зарегистрироваться</a></p>
+                    </div>
+                    
+                    <div class="error-message" id="loginError"></div>
+                    <button type="submit">Войти</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script>
+        // ========== УПРАВЛЕНИЕ ФОРМАМИ ==========
+        const registerForm = document.getElementById('registerForm');
+        const loginForm = document.getElementById('loginForm');
+        const switchToLogin = document.getElementById('switchToLogin');
+        const switchToRegister = document.getElementById('switchToRegister');
+
+        function showLoginForm() {
+            registerForm.classList.add('hidden');
+            loginForm.classList.remove('hidden');
+            clearErrors();
+        }
+
+        function showRegisterForm() {
+            loginForm.classList.add('hidden');
+            registerForm.classList.remove('hidden');
+            clearErrors();
+        }
+
+        function clearErrors() {
+            const loginError = document.getElementById('loginError');
+            const registerError = document.getElementById('registerError');
+            if (loginError) loginError.textContent = '';
+            if (registerError) registerError.textContent = '';
+        }
+
+        if (switchToLogin) {
+            switchToLogin.addEventListener('click', function(e) {
+                e.preventDefault();
+                showLoginForm();
+            });
+        }
+
+        if (switchToRegister) {
+            switchToRegister.addEventListener('click', function(e) {
+                e.preventDefault();
+                showRegisterForm();
+            });
+        }
+
+        // ========== ФОРМАТИРОВАНИЕ ТЕЛЕФОНА ==========
+        function formatPhone(input) {
+            input.addEventListener('input', function(e) {
+                let value = this.value.replace(/\D/g, '');
+                
+                if (value.length === 0) {
+                    this.value = '';
+                    return;
+                }
+                
+                if (value[0] === '8') {
+                    value = '7' + value.slice(1);
+                }
+                
+                let formatted = '+7';
+                if (value.length > 1) {
+                    formatted += ' (' + value.slice(1, 4);
+                }
+                if (value.length > 4) {
+                    formatted += ') ' + value.slice(4, 7);
+                }
+                if (value.length > 7) {
+                    formatted += '-' + value.slice(7, 9);
+                }
+                if (value.length > 9) {
+                    formatted += '-' + value.slice(9, 11);
+                }
+                
+                this.value = formatted;
+            });
+        }
+
+        // Применяем форматирование к обоим полям телефона
+        const registerPhone = document.getElementById('registerPhone');
+        const loginPhone = document.getElementById('loginPhone');
+        if (registerPhone) formatPhone(registerPhone);
+        if (loginPhone) formatPhone(loginPhone);
+
+        // ========== АНИМАЦИЯ LABEL ==========
+        document.querySelectorAll('.inputbox input').forEach(input => {
+            function updateLabel() {
+                if (this.value.trim() !== '') {
+                    this.classList.add('has-value');
+                } else {
+                    this.classList.remove('has-value');
+                }
+            }
+            
+            input.addEventListener('input', updateLabel);
+            updateLabel.call(input);
+        });
+
+        // ========== ВАЛИДАЦИЯ ТЕЛЕФОНА ==========
+        function validatePhone(phone) {
+            const digits = phone.replace(/\D/g, '');
+            return digits.length === 11 && digits[0] === '7';
+        }
+
+        // API (страница должна открываться с сервера: http://localhost:3000/reg.html)
+        async function apiPost(path, body) {
+            const res = await fetch(path, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) {
+                const err = new Error(data.error || 'Ошибка сервера');
+                err.status = res.status;
+                throw err;
+            }
+            return data;
+        }
+
+        function digitsPhone(phone) {
+            return phone.replace(/\D/g, '');
+        }
+
+        // ========== ОБРАБОТКА РЕГИСТРАЦИИ ==========
+        const registerError = document.getElementById('registerError');
+        
+        if (registerForm) {
+            registerForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                registerError.textContent = '';
+                registerError.style.color = '#ff6b6b';
+                
+                const name = document.getElementById('registerName').value.trim();
+                const phone = document.getElementById('registerPhone').value.trim();
+                const password = document.getElementById('registerPassword').value;
+                const termsAgree = document.getElementById('registerTermsAgree').checked;
+                const dataAgree = document.getElementById('registerDataAgree').checked;
+                
+                if (!name) {
+                    registerError.textContent = 'Введите имя';
+                    return;
+                }
+                
+                if (name.length < 2) {
+                    registerError.textContent = 'Имя должно содержать минимум 2 символа';
+                    return;
+                }
+                
+                if (!phone) {
+                    registerError.textContent = 'Введите номер телефона';
+                    return;
+                }
+                
+                if (!validatePhone(phone)) {
+                    registerError.textContent = 'Введите корректный номер телефона (например: +7 999 123-45-67)';
+                    return;
+                }
+
+                if (!password || password.length < 6) {
+                    registerError.textContent = 'Пароль не короче 6 символов';
+                    return;
+                }
+                
+                if (!termsAgree) {
+                    registerError.textContent = 'Необходимо согласиться с условиями пользования';
+                    return;
+                }
+                
+                if (!dataAgree) {
+                    registerError.textContent = 'Необходимо дать согласие на обработку персональных данных';
+                    return;
+                }
+                
+                try {
+                    const data = await apiPost('/api/auth/register', { name, phone, password });
+                    const user = data.user;
+                    registerError.style.color = '#51cf66';
+                    registerError.textContent = 'Регистрация успешна! Перенаправление...';
+                    localStorage.setItem('pitstop_current_user', JSON.stringify(user));
+                    if (data.token) localStorage.setItem('pitstop_token', data.token);
+                    setTimeout(() => {
+                        window.location.href = user.isAdmin ? 'admin.html' : 'profil.html';
+                    }, 800);
+                } catch (err) {
+                    registerError.textContent = err.message || 'Не удалось зарегистрироваться';
+                }
+            });
+        }
+
+        // ========== ОБРАБОТКА ВХОДА ==========
+        const loginError = document.getElementById('loginError');
+        
+        if (loginForm) {
+            loginForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                loginError.textContent = '';
+                loginError.style.color = '#ff6b6b';
+                
+                const name = document.getElementById('loginName').value.trim();
+                const phone = document.getElementById('loginPhone').value.trim();
+                const password = document.getElementById('loginPassword').value;
+                const termsAgree = document.getElementById('loginTermsAgree').checked;
+                const dataAgree = document.getElementById('loginDataAgree').checked;
+                const rememberMe = document.getElementById('rememberMe').checked;
+                
+                if (!name) {
+                    loginError.textContent = 'Введите имя';
+                    return;
+                }
+                
+                if (!phone) {
+                    loginError.textContent = 'Введите номер телефона';
+                    return;
+                }
+                
+                if (!validatePhone(phone)) {
+                    loginError.textContent = 'Введите корректный номер телефона (например: +7 999 123-45-67)';
+                    return;
+                }
+
+                if (!password) {
+                    loginError.textContent = 'Введите пароль';
+                    return;
+                }
+                
+                if (!termsAgree) {
+                    loginError.textContent = 'Необходимо согласиться с условиями пользования';
+                    return;
+                }
+                
+                if (!dataAgree) {
+                    loginError.textContent = 'Необходимо дать согласие на обработку персональных данных';
+                    return;
+                }
+                
+                try {
+                    const data = await apiPost('/api/auth/login', { name, phone, password });
+                    const user = data.user;
+                    loginError.style.color = '#51cf66';
+                    loginError.textContent = 'Вход выполнен успешно! Перенаправление...';
+                    localStorage.setItem('pitstop_current_user', JSON.stringify(user));
+                    if (data.token) localStorage.setItem('pitstop_token', data.token);
+                    if (rememberMe) {
+                        localStorage.setItem('pitstop_remembered', JSON.stringify({
+                            name: user.name,
+                            phoneDigits: digitsPhone(phone)
+                        }));
+                    } else {
+                        localStorage.removeItem('pitstop_remembered');
+                    }
+                    setTimeout(() => {
+                        window.location.href = user.isAdmin ? 'admin.html' : 'profil.html';
+                    }, 600);
+                } catch (err) {
+                    loginError.textContent = err.message || 'Не удалось войти';
+                }
+            });
+        }
+        
+        // «Запомнить меня»: подставляем имя и телефон (пароль не храним)
+        const remembered = localStorage.getItem('pitstop_remembered');
+        if (remembered && /reg\.html/i.test(window.location.pathname)) {
+            try {
+                const r = JSON.parse(remembered);
+                showLoginForm();
+                const loginNameEl = document.getElementById('loginName');
+                const loginPhoneEl = document.getElementById('loginPhone');
+                if (loginNameEl && r.name) {
+                    loginNameEl.value = r.name;
+                    loginNameEl.dispatchEvent(new Event('input'));
+                }
+                if (loginPhoneEl) {
+                    let d = String(r.phoneDigits || '').replace(/\D/g, '');
+                    if (!d && r.phone) d = String(r.phone).replace(/\D/g, '');
+                    if (d.length === 11 && d[0] === '7') {
+                        loginPhoneEl.value = '+7 (' + d.slice(1, 4) + ') ' + d.slice(4, 7) + '-' + d.slice(7, 9) + '-' + d.slice(9, 11);
+                        loginPhoneEl.dispatchEvent(new Event('input'));
+                    }
+                }
+            } catch (e) {
+                console.log('Ошибка подстановки «запомнить меня»');
+            }
+        }
+    </script>
+</body>
+</html>

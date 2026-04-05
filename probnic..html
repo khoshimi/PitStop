@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pit-Stop</title>
+    <link rel="stylesheet" href="1_glav/syle.css">
+</head>
+<body>
+    <div class="fon">
+        <video autoplay muted loop playsinline src="1_glav/fon.mp4" class="video"></video>
+        <div class="slide-up-text">
+            <h1>PIT-STOP</h1>
+            <p>Смотри Формулу 1 с атмосферой скорости</p>
+        </div>
+        
+        <!-- Хедер с правильным расположением -->
+        <header id="main-header">
+            <div class="header-container">
+                <div class="logo">
+                    <a href="glav.html"><img src="1_glav/logo.png" alt="Pit-Stop"></a>
+                </div>
+                
+                <nav class="main-nav">
+                    <a href="glav.html">Главная</a>
+                    <a href="menu.html">Меню</a>
+                    <a href="afisha.html">Расписание</a>
+                    <a href="bron.html">Бронь</a>
+                    <a href="otz.html">Контакты</a>
+                </nav>
+                
+                <div class="header-actions">
+                    <a href="profil.html" class="profile-icon">
+                        <img width="36" height="36" src="https://img.icons8.com/windows/96/user-male-circle.png" alt="user-male-circle"/>
+                    </a>
+                    <a href="korzina.html" class="cart-icon">
+                        <img width="28" height="28" src="https://img.icons8.com/pastel-glyph/64/shopping-cart--v1.png" alt="shopping-cart--v1"/>
+                    </a>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <!-- Бургер-меню (скрыто на десктопе, появляется на мобилках) -->
+    <input type="checkbox" id="menuToggle" class="menu-toggle">
+
+    <label for="menuToggle" class="burger-container">
+        <div class="burger-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </label>
+    
+    <nav class="nav-menu">
+        <div class="nav-menu-inner">
+            <p class="zagbur"><b>Компания</b></p>
+            <a href="glav.html" class="nav-item">Главная</a>
+            <a href="o_nas.html" class="nav-item">О нас</a>
+            <a href="bron.html" class="nav-item">Бронь</a>
+            <p class="zagbur"><b>Меню</b></p>
+            <a href="napit.html" class="nav-item">Напитки</a>
+            <a href="zackus.html" class="nav-item">Закуски</a>
+            <a href="eda.html" class="nav-item">Еда</a>
+            <p class="zagbur"><b>Работа</b></p>
+            <a href="bar.html" class="nav-item">Бариста</a>
+            <a href="povar.html" class="nav-item">Повар</a>
+            <a href="ofic.html" class="nav-item">Официант</a>
+        </div>
+    </nav>
+    <label for="menuToggle" class="overlay"></label>
+</body>
+</html>

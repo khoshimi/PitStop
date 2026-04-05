@@ -1,0 +1,836 @@
+@font-face {
+    font-family: 'osn';
+    src: url('Dimica-Light.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'Zag';
+    src: url('DrukCyr-HeavyItalic.ttf') format('opentype');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #1A1A1A;
+}
+
+/* ========== ХЕДЕР ========== */
+#main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(26, 26, 26, 0.7);
+    backdrop-filter: blur(8px);
+    padding: 12px 5%;
+    z-index: 1000;
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.logo {
+    flex-shrink: 0;
+}
+
+.logo img {
+    height: 40px;
+    width: auto;
+}
+
+.main-nav {
+    display: flex;
+    gap: 30px;
+    margin: 0 auto;
+}
+
+.main-nav a {
+    color: #BFBFBF;
+    font-family: 'osn';
+    text-decoration: none;
+    font-size: 20px;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.main-nav a:hover {
+    color: #6B0000;
+}
+
+.main-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #6B0000;
+    transition: width 0.3s ease;
+}
+
+.main-nav a:hover::after {
+    width: 100%;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-shrink: 0;
+}
+
+.profile-icon,
+.cart-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.profile-icon:hover,
+.cart-icon:hover {
+    transform: scale(1.1);
+}
+
+.profile-icon img,
+.cart-icon img {
+    filter: brightness(0) invert(1);
+    transition: filter 0.3s ease;
+}
+
+.profile-icon:hover img,
+.cart-icon:hover img {
+    filter: brightness(0) invert(0.6);
+}
+
+/* ========== ФОН С ВИДЕО ========== */
+.fon {
+    width: 100%;
+    height: 645px;
+    background-color: #1a1a1a;
+    position: relative;
+    overflow: hidden;
+}
+
+.video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.fon::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(26, 26, 26, 0.5);
+    backdrop-filter: blur(9px);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.slide-up-text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 60px 40px 130px 40px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    color: white;
+    z-index: 10;
+    transform: translateY(100%);
+    animation: slideUp 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+    animation-delay: 1s;
+    text-align: center;
+}
+
+.slide-up-text p {
+    font-family: 'Zag';
+    font-size: 78px;
+    opacity: 0;
+    animation: fadeIn 0.6s ease-out forwards;
+    animation-delay: 0.8s;
+}
+
+@keyframes slideUp {
+    0% { transform: translateY(100%); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ========== БУРГЕР-МЕНЮ (РАБОЧАЯ ВЕРСИЯ) ========== */
+:root {
+    --menu-bg: rgba(26, 26, 26, 0.95);
+    --burger-color: #f9f9f9;
+}
+
+.menu-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 54px;
+    height: 54px;
+    opacity: 0;
+    z-index: 2000;
+    cursor: pointer;
+}
+
+.burger-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 54px;
+    height: 54px;
+    background: #1a1a1a;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1999;
+    transition: all 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.burger-container:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+}
+
+.burger-icon {
+    width: 32px;
+    height: 26px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.burger-icon span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: var(--burger-color);
+    border-radius: 10px;
+    transition: all 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);
+    transform-origin: center;
+}
+
+.menu-toggle:checked ~ .burger-container .burger-icon span:nth-child(1) {
+    transform: translateY(11.5px) rotate(45deg);
+}
+
+.menu-toggle:checked ~ .burger-container .burger-icon span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.menu-toggle:checked ~ .burger-container .burger-icon span:nth-child(3) {
+    transform: translateY(-11.5px) rotate(-45deg);
+}
+
+/* Меню */
+.nav-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    max-width: 400px;
+    height: 100vh;
+    background: var(--menu-bg);
+    backdrop-filter: blur(20px);
+    z-index: 950;
+    transform: translateX(100%);
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: -5px 0 30px rgba(0,0,0,0.3);
+    overflow-y: auto;
+}
+
+.menu-toggle:checked ~ .nav-menu {
+    transform: translateX(0);
+}
+
+.nav-menu-inner {
+    padding: 100px 40px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.nav-item {
+    display: block;
+    color: #eee;
+    text-decoration: none;
+    font-size: 18px;
+    font-family: 'osn';
+    padding: 12px 15px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateX(30px);
+}
+
+.menu-toggle:checked ~ .nav-menu .nav-item {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.menu-toggle:checked ~ .nav-menu .nav-item:nth-child(2) { transition: all 0.3s ease 0.05s; }
+.menu-toggle:checked ~ .nav-menu .nav-item:nth-child(3) { transition: all 0.3s ease 0.1s; }
+.menu-toggle:checked ~ .nav-menu .nav-item:nth-child(4) { transition: all 0.3s ease 0.15s; }
+.menu-toggle:checked ~ .nav-menu .nav-item:nth-child(5) { transition: all 0.3s ease 0.2s; }
+.menu-toggle:checked ~ .nav-menu .nav-item:nth-child(6) { transition: all 0.3s ease 0.25s; }
+.menu-toggle:checked ~ .nav-menu .nav-item:nth-child(7) { transition: all 0.3s ease 0.3s; }
+.menu-toggle:checked ~ .nav-menu .nav-item:nth-child(8) { transition: all 0.3s ease 0.35s; }
+.menu-toggle:checked ~ .nav-menu .nav-item:nth-child(9) { transition: all 0.3s ease 0.4s; }
+.menu-toggle:checked ~ .nav-menu .nav-item:nth-child(10) { transition: all 0.3s ease 0.45s; }
+.menu-toggle:checked ~ .nav-menu .nav-item:nth-child(11) { transition: all 0.3s ease 0.5s; }
+
+.nav-item:hover {
+    background: #480000;
+    transform: translateX(10px) !important;
+}
+
+.zagbur {
+    color: #6B0000;
+    font-size: 24px;
+    font-family: 'osn';
+    margin-top: 20px;
+    margin-bottom: 5px;
+    padding-left: 15px;
+}
+
+.zagbur:first-of-type {
+    margin-top: 0;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(8px);
+    z-index: 940;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.menu-toggle:checked ~ .overlay {
+    opacity: 1;
+    visibility: visible;
+}
+
+.nav-menu::-webkit-scrollbar {
+    width: 6px;
+}
+
+.nav-menu::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+}
+
+.nav-menu::-webkit-scrollbar-thumb {
+    background: #6B0000;
+    border-radius: 10px;
+}
+
+/* ========== АДАПТИВНОСТЬ ========== */
+@media (max-width: 1024px) {
+    .main-nav {
+        gap: 20px;
+    }
+    .main-nav a {
+        font-size: 18px;
+    }
+    .logo img {
+        height: 35px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-nav {
+        display: none;
+    }
+    .slide-up-text p {
+        font-size: 36px;
+    }
+    .logo img {
+        height: 30px;
+    }
+    .profile-icon img {
+        width: 28px;
+        height: 28px;
+    }
+    .cart-icon img {
+        width: 24px;
+        height: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .burger-container {
+        width: 44px;
+        height: 44px;
+        top: 15px;
+        right: 15px;
+    }
+    .menu-toggle {
+        width: 44px;
+        height: 44px;
+        top: 15px;
+        right: 15px;
+    }
+    .burger-icon {
+        width: 26px;
+        height: 20px;
+    }
+    .burger-icon span {
+        height: 2.5px;
+    }
+    .menu-toggle:checked ~ .burger-container .burger-icon span:nth-child(1) {
+        transform: translateY(8.75px) rotate(45deg);
+    }
+    .menu-toggle:checked ~ .burger-container .burger-icon span:nth-child(3) {
+        transform: translateY(-8.75px) rotate(-45deg);
+    }
+    .slide-up-text p {
+        font-size: 24px;
+    }
+}
+
+/* Контейнер для скролл-блока */
+.scroll-container-wrapper {
+    width: 90%;
+    margin: 50px auto;
+    padding-bottom: 20px;
+}
+
+.scroll-cards {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 20px; /* место для скроллбара */
+    scrollbar-width: thin; /* для Firefox */
+}
+
+/* ========== БЛОК С КАРТОЧКАМИ (ГОРИЗОНТАЛЬНЫЙ СКРОЛЛ) ========== */
+.race-scroll-section {
+    padding-top: 100px;
+    padding-bottom: 60px;
+    background-color: #262626;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 50px;
+    padding: 0 20px;
+}
+
+.section-title h1 {
+    font-family: 'Zag';
+    font-size: 96px;
+    color: #fff;
+}
+
+.race-track-container {
+    margin: 0 auto;
+    background-color: #262626;
+    padding: 20px 0;
+}
+
+.horizontal-scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    margin-bottom: 30px;
+    cursor: grab;
+}
+
+.horizontal-scroll:active {
+    cursor: grabbing;
+}
+
+.horizontal-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.scroll-track {
+    display: flex;
+    gap: 25px;
+    padding: 20px 10px 30px;
+    min-width: min-content;
+}
+
+/* Карточка - теперь просто изображение 490x300 */
+.race-card {
+    flex-shrink: 0;
+    width: 490px;
+    height: 300px;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+    position: relative;
+    background-color: #08821600;
+}
+
+.race-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+/* Красное свечение при наведении */
+.race-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 30px rgba(233, 69, 96, 0.4), 0 10px 20px rgba(0,0,0,0.3);
+}
+
+.race-card:hover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(233,69,96,0.2), transparent);
+    pointer-events: none;
+}
+
+.race-card:hover img {
+    transform: scale(1.05);
+}
+
+/* ========== КАСТОМНЫЙ СКРОЛЛБАР ========== */
+.custom-scrollbar {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto 0;
+    height: 40px;
+}
+
+.scroll-track-bg {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background: #3F3F3F;
+    border-radius: 4px;
+}
+
+.scroll-thumb {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    width: 50px;
+    height: 35px;
+    cursor: pointer;
+    z-index: 10;
+    transition: filter 0.3s ease;
+}
+
+.scroll-thumb:hover {
+    filter: drop-shadow(0 0 10px #600000);
+}
+
+.f1-car {
+    width: 100%;
+    height: 100%;
+    background-image: url("icons8-болид-формулы--сверху-48 1.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: transform 0.2s ease;
+}
+
+.scroll-thumb:hover .f1-car {
+    transform: scale(1.1);
+}
+
+/* ========== БЛОК С ГРАН-ПРИ ========== */
+.zag_gp {
+    color: #fff;
+    font-size: 64px;
+    font-family: "Zag";
+    text-align: center;
+    margin-top: 80px;
+}
+
+.gp {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 54px;
+    margin-left: 120px;
+}
+
+/* Таймер - только часы, минуты, секунды */
+.countdown-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin: 30px 0;
+}
+
+.time-box {
+    text-align: center;
+    background: #1a1a1a;
+    padding: 20px 30px;
+    border-radius: 16px;
+    min-width: 120px;
+}
+
+.time-box span:first-child {
+    font-size: 72px;
+    color: #7D0000;
+    font-family: 'Zag';
+    display: block;
+    line-height: 1;
+}
+
+.time-label {
+    font-size: 16px;
+    color: #aaa;
+    font-family: 'osn';
+    margin-top: 10px;
+    display: block;
+}
+
+.gp_t {
+    color: #fff;
+    font-size: 40px;
+    font-family: 'osn';
+    text-align: center;
+}
+
+.gp_t a {
+    color: #7D0000;
+    text-decoration: none;
+}
+
+.gp_t a:hover {
+    text-decoration: underline;
+}
+
+.gp_img {
+    margin-left: 85px;
+}
+
+.gp_op {
+    margin-top: 50px;
+}
+
+.bolid {
+    margin-top: 40px;
+    margin-bottom: 60px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ========== БЛОК С АКЦИЯМИ ========== */
+.akc_blok {
+    background-color: #262626;
+    width: 1084px;
+    max-width: 90%;
+    margin: 66px auto 50px;
+    border-radius: 12px;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.akc_zag {
+    font-size: 64px;
+    font-family: 'Zag';
+    color: #fff;
+    text-align: center;
+}
+
+.akc_cart {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin: 44px 0;
+}
+
+.akc_cart a {
+    transition: transform 0.3s ease;
+}
+
+.akc_cart a:hover {
+    transform: scale(1.05);
+}
+
+.akc_cart img {
+    border-radius: 12px;
+}
+
+.akc_blok > a {
+    color: white;
+    text-decoration: none;
+    font-size: 32px;
+    font-family: 'osn';
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+.akc_blok > a:hover {
+    color: #6B0000;
+}
+
+footer {
+    text-align: center;
+    margin-top: 50px;
+}
+
+/* ========== АНИМАЦИЯ ПРИ СКРОЛЛЕ ========== */
+.scroll-animate {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+}
+
+.scroll-animate.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Анимация выезда болида слева */
+.scroll-left {
+    opacity: 0;
+    transform: translateX(-100px);
+    transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+}
+
+.scroll-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* ========== АДАПТИВНОСТЬ ========== */
+@media (max-width: 1024px) {
+    .section-title h1 {
+        font-size: 56px;
+    }
+    .zag_gp {
+        font-size: 48px;
+    }
+    .gp_t {
+        font-size: 28px;
+    }
+    .race-card {
+        width: 380px;
+        height: 240px;
+    }
+    .time-box span:first-child {
+        font-size: 48px;
+    }
+    .time-box {
+        min-width: 80px;
+        padding: 15px 20px;
+    }
+    .gp {
+        flex-direction: column;
+        align-items: center;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .gp_img {
+        margin-left: 0;
+        margin-top: 30px;
+        max-width: 100%;
+    }
+    .akc_zag {
+        font-size: 48px;
+    }
+}
+
+@media (max-width: 768px) {
+    .section-title h1 {
+        font-size: 36px;
+    }
+    .zag_gp {
+        font-size: 32px;
+    }
+    .gp_t {
+        font-size: 20px;
+    }
+    .race-card {
+        width: 300px;
+        height: 190px;
+    }
+    .countdown-container {
+        gap: 15px;
+    }
+    .time-box {
+        min-width: 70px;
+        padding: 10px 15px;
+    }
+    .time-box span:first-child {
+        font-size: 32px;
+    }
+    .time-label {
+        font-size: 12px;
+    }
+    .akc_zag {
+        font-size: 32px;
+    }
+    .akc_cart a img {
+        width: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .section-title h1 {
+        font-size: 28px;
+    }
+    .zag_gp {
+        font-size: 24px;
+    }
+    .race-card {
+        width: 260px;
+        height: 160px;
+    }
+    .custom-scrollbar {
+        max-width: 90%;
+    }
+    .scroll-thumb {
+        width: 40px;
+        height: 30px;
+    }
+    .time-box {
+        min-width: 60px;
+        padding: 8px 12px;
+    }
+    .time-box span:first-child {
+        font-size: 24px;
+    }
+    .akc_zag {
+        font-size: 24px;
+    }
+}
