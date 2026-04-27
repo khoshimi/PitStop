@@ -1,4 +1,4 @@
-// ========== ГОРИЗОНТАЛЬНЫЙ СКРОЛЛ С БОЛИДОМ ==========
+// ========== ГОРИЗОНТАЛЬНЫЙ СКРОЛЛ С БОЛИДОМ (ДЛЯ СТРАНИЦЫ О НАС) ==========
 const scrollContainer = document.getElementById('horScroll');
 const scrollThumb = document.getElementById('scrollThumb');
 const scrollTrack = document.querySelector('.scroll-track-bg');
@@ -57,28 +57,32 @@ if (scrollContainer) {
 window.addEventListener('resize', updateThumbPosition);
 setTimeout(updateThumbPosition, 100);
 
-// ========== СЛАЙДЕР ОТЗЫВОВ (данные с сервера /api/reviews) ==========
+// ========== ПРОКРУТКА КОЛЁСИКОМ МЫШИ (ГОРИЗОНТАЛЬНАЯ) ==========
+if (scrollContainer) {
+    scrollContainer.addEventListener('wheel', (e) => {
+        if (e.shiftKey || e.ctrlKey) return;
+        scrollContainer.scrollLeft += e.deltaY;
+        e.preventDefault();
+    }, { passive: false });
+}
 
+// ========== СЛАЙДЕР ОТЗЫВОВ (существующий код) ==========
 let reviews = [];
-
 let currentIndex = 0;
 let slidesPerView = 1;
 
-// Защита от XSS
 function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
 }
 
-// Отрисовка слайдера
 function renderSlider() {
     const track = document.getElementById('sliderTrack');
     const dotsContainer = document.getElementById('sliderDots');
     
     if (!track) return;
     
-    // Отрисовка карточек
     track.innerHTML = '';
     reviews.forEach(review => {
         const card = document.createElement('div');
@@ -93,10 +97,8 @@ function renderSlider() {
         track.appendChild(card);
     });
     
-    // Обновляем ширину карточек
     updateCardWidth();
     
-    // Отрисовка точек
     if (dotsContainer) {
         dotsContainer.innerHTML = '';
         for (let i = 0; i < reviews.length; i++) {
@@ -107,11 +109,9 @@ function renderSlider() {
         }
     }
     
-    // Обновляем позицию слайдера
     updateSliderPosition();
 }
 
-// Обновление ширины карточек
 function updateCardWidth() {
     const wrapper = document.querySelector('.slider-wrapper');
     const track = document.getElementById('sliderTrack');
@@ -126,7 +126,6 @@ function updateCardWidth() {
     }
 }
 
-// Обновление позиции слайдера
 function updateSliderPosition() {
     const track = document.getElementById('sliderTrack');
     const wrapper = document.querySelector('.slider-wrapper');
@@ -136,14 +135,12 @@ function updateSliderPosition() {
         track.style.transform = `translateX(${offset}px)`;
     }
     
-    // Обновляем активную точку
     const dots = document.querySelectorAll('.dot');
     dots.forEach((dot, i) => {
         dot.classList.toggle('active', i === currentIndex);
     });
 }
 
-// Переход к определённому слайду
 function goToSlide(index) {
     if (index < 0) index = 0;
     if (index >= reviews.length) index = reviews.length - 1;
@@ -151,7 +148,6 @@ function goToSlide(index) {
     updateSliderPosition();
 }
 
-// Следующий слайд
 function nextSlide() {
     if (currentIndex < reviews.length - 1) {
         currentIndex++;
@@ -159,7 +155,6 @@ function nextSlide() {
     }
 }
 
-// Предыдущий слайд
 function prevSlide() {
     if (currentIndex > 0) {
         currentIndex--;
@@ -189,7 +184,6 @@ async function addReviewViaApi(name, message) {
     return true;
 }
 
-// Обработка изменения размера окна
 window.addEventListener('resize', () => {
     updateCardWidth();
     updateSliderPosition();

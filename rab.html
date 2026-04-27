@@ -3,9 +3,350 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Работа</title>
+    <link rel="stylesheet" href="8_rabota\style.css">
+   
 </head>
 <body>
+    <div class="fon">
+        <img src="3_o_nas\fon (7).png" alt="">
+        
+        <div class="slide-up-text">
+            <p>Хочешь работать в команде, где пахнет скоростью и драйвом? Присоединяйся к “PitStop”!
+        </div>
+        
+        <header id="main-header">
+            <div class="header-container">
+                <div class="logo">
+                    <a href="glav.html"><img src="1_glav/logo.png" alt="Pit-Stop"></a>
+                </div>
+                
+                <nav class="main-nav">
+                    <a href="glav.html">Главная</a>
+                    <a href="menu.html">Меню</a>
+                    <a href="rab.html">Работа</a>
+                    <a href="bron.html">Бронь</a>
+                    <a href="o_nas.html">Контакты</a>
+                </nav>
+                
+                <div class="header-actions">
+                    <a href="profil.html" class="profile-icon">
+                        <img width="32" height="32" src="https://img.icons8.com/windows/96/user-male-circle.png" alt="profile">
+                    </a>
+                    <a href="korzina.html" class="cart-icon">
+                        <img width="28" height="28" src="https://img.icons8.com/pastel-glyph/64/shopping-cart--v1.png" alt="cart">
+                    </a>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <!-- Бургер-меню -->
+    <input type="checkbox" id="menuToggle" class="menu-toggle">
+    <label for="menuToggle" class="burger-container">
+        <div class="burger-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </label>
     
+    <div class="nav-menu">
+        <div class="nav-menu-inner">
+            <p class="zagbur"><b>Компания</b></p>
+            <a href="glav.html" class="nav-item">Главная</a>
+            <a href="o_nas.html" class="nav-item">О нас</a>
+            <a href="bron.html" class="nav-item">Бронь</a>
+            
+            <p class="zagbur"><b>Меню</b></p>
+            <a href="napit.html" class="nav-item">Напитки</a>
+            <a href="zackus.html" class="nav-item">Закуски</a>
+            <a href="eda.html" class="nav-item">Еда</a>
+            
+            <p class="zagbur"><b>Работа</b></p>
+            <a href="bar.html" class="nav-item">Бариста</a>
+            <a href="povar.html" class="nav-item">Повар</a>
+            <a href="ofic.html" class="nav-item">Официант</a>
+        </div>
+    </div>
+    <label for="menuToggle" class="overlay"></label>
+
+    <div class="perecl">
+        <button id="btn1">БАРИСТА</button>
+        <button id="btn2">ПОВАР</button>
+        <button id="btn3">ОФИЦИАНТ</button>
+    </div>
+    <div id="info1" class="info hidden">
+        <div class="container">
+        <div class="form-card">
+            <h1>АНКЕТА НА ВАКАНСИЮ: БАРИСТА</h1>
+            
+            <form id="baristaForm">
+                <!-- ДВЕ КОЛОНКИ -->
+                <div class="two-columns">
+                    <!-- ЛЕВАЯ КОЛОНКА -->
+                    <div class="left-col">
+                        <div class="form-group">
+                            <label for="fullname">ФИО <span class="required">*</span></label>
+                            <input type="text" id="fullname" name="fullname" placeholder="Иванов Иван Иванович" required>
+                            <div class="error-message" id="fullnameError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="birthdate">ДАТА РОЖДЕНИЯ <span class="required">*</span></label>
+                            <input type="date" id="birthdate" name="birthdate" required>
+                            <div class="error-message" id="birthdateError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">ТЕЛЕФОН <span class="required">*</span></label>
+                            <input type="tel" id="phone" name="phone" placeholder="+7 (999) 123-45-67" required>
+                            <div class="error-message" id="phoneError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">ПОЧТА <span class="required">*</span></label>
+                            <input type="email" id="email" name="email" placeholder="example@mail.ru" required>
+                            <div class="error-message" id="emailError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="experience">ОПЫТ РАБОТЫ (ЛЕТ) <span class="required">*</span></label>
+                            <input type="number" id="experience" name="experience" min="0" max="50" step="1" placeholder="0" required>
+                            <div class="error-message" id="experienceError"></div>
+                        </div>
+                    </div>
+
+                    <!-- ПРАВАЯ КОЛОНКА (ФОТО) -->
+                    <div class="right-col">
+                        <div class="photo-upload">
+                            <div class="photo-preview" id="photoPreview">
+                                <img id="previewImg" src="#" alt="Превью" style="display: none;">
+                                <div class="placeholder" id="placeholderIcon"><input type="file" id="photoInput" accept="image/jpeg, image/png, image/jpg">
+                                    <button type="button" id="uploadPhotoBtn" class="upload-btn">Загрузить фото (необязательно)</button>
+                                    <div class="error-message" id="photoError"></div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <!-- БЛОК СНИЗУ: ПОЧЕМУ ХОТИТЕ РАБОТАТЬ -->
+                <div class="form-group full-width">
+                    <label for="reason">ПОЧЕМУ ХОТИТЕ РАБОТАТЬ У НАС? <span class="required">*</span></label>
+                    <textarea id="reason" name="reason" rows="3" placeholder="Расскажите, почему вы хотите работать именно в нашей кофейне..." required></textarea>
+                    <div class="error-message" id="reasonError"></div>
+                </div>
+
+                <!-- СОГЛАСИЕ + КНОПКА -->
+                <div class="checkbox-group">
+                    <input type="checkbox" id="consent" required>
+                    <label for="consent" class="checkbox-label">Я согласен(на) на обработку персональных данных <span class="required">*</span></label>
+                </div>
+
+                <button type="submit" class="submit-btn">ОТПРАВИТЬ</button>
+            </form>
+
+            <div id="successMessage" class="success-message hidden">
+                Спасибо! Ваша анкета отправлена. Мы свяжемся с вами.
+            </div>
+        </div>
+    </div>
+    </div>
+    <div id="info2" class="info hidden">
+                <div class="container">
+        <div class="form-card">
+            <h1>АНКЕТА НА ВАКАНСИЮ: ПОВАР</h1>
+            
+            <form id="baristaForm">
+                <!-- ДВЕ КОЛОНКИ -->
+                <div class="two-columns">
+                    <!-- ЛЕВАЯ КОЛОНКА -->
+                    <div class="left-col">
+                        <div class="form-group">
+                            <label for="fullname">ФИО <span class="required">*</span></label>
+                            <input type="text" id="fullname" name="fullname" placeholder="Иванов Иван Иванович" required>
+                            <div class="error-message" id="fullnameError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="birthdate">ДАТА РОЖДЕНИЯ <span class="required">*</span></label>
+                            <input type="date" id="birthdate" name="birthdate" required>
+                            <div class="error-message" id="birthdateError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">ТЕЛЕФОН <span class="required">*</span></label>
+                            <input type="tel" id="phone" name="phone" placeholder="+7 (999) 123-45-67" required>
+                            <div class="error-message" id="phoneError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">ПОЧТА <span class="required">*</span></label>
+                            <input type="email" id="email" name="email" placeholder="example@mail.ru" required>
+                            <div class="error-message" id="emailError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="experience">ОПЫТ РАБОТЫ (ЛЕТ) <span class="required">*</span></label>
+                            <input type="number" id="experience" name="experience" min="0" max="50" step="1" placeholder="0" required>
+                            <div class="error-message" id="experienceError"></div>
+                        </div>
+                    </div>
+
+                    <!-- ПРАВАЯ КОЛОНКА (ФОТО) -->
+                    <div class="right-col">
+                        <label>ФОТОГРАФИЯ</label>
+                        <div class="photo-upload">
+                            <div class="photo-preview" id="photoPreview">
+                                <img id="previewImg" src="#" alt="Превью" style="display: none;">
+                                <div class="placeholder" id="placeholderIcon">
+                                    <input type="file" id="photoInput" accept="image/jpeg, image/png, image/jpg">
+                                    <button type="button" id="uploadPhotoBtn" class="upload-btn">Загрузить фото</button>
+                                    <div class="error-message" id="photoError"></div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <!-- БЛОК СНИЗУ: ПОЧЕМУ ХОТИТЕ РАБОТАТЬ -->
+                <div class="form-group full-width">
+                    <label for="reason">ПОЧЕМУ ХОТИТЕ РАБОТАТЬ У НАС? <span class="required">*</span></label>
+                    <textarea id="reason" name="reason" rows="3" placeholder="Расскажите, почему вы хотите работать именно в нашей кофейне..." required></textarea>
+                    <div class="error-message" id="reasonError"></div>
+                </div>
+
+                <!-- СОГЛАСИЕ + КНОПКА -->
+                <div class="checkbox-group">
+                    <input type="checkbox" id="consent" required>
+                    <label for="consent" class="checkbox-label">Я согласен(на) на обработку персональных данных <span class="required">*</span></label>
+                </div>
+
+                <button type="submit" class="submit-btn">ОТПРАВИТЬ</button>
+            </form>
+
+            <div id="successMessage" class="success-message hidden">
+                Спасибо! Ваша анкета отправлена. Мы свяжемся с вами.
+            </div>
+        </div>
+    </div>
+    </div>
+    <div id="info3" class="info hidden">
+                <div class="container">
+        <div class="form-card">
+            <h1>АНКЕТА НА ВАКАНСИЮ: ОФИЦИАНТ</h1>
+            
+            <form id="baristaForm">
+                <!-- ДВЕ КОЛОНКИ -->
+                <div class="two-columns">
+                    <!-- ЛЕВАЯ КОЛОНКА -->
+                    <div class="left-col">
+                        <div class="form-group">
+                            <label for="fullname">ФИО <span class="required">*</span></label>
+                            <input type="text" id="fullname" name="fullname" placeholder="Иванов Иван Иванович" required>
+                            <div class="error-message" id="fullnameError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="birthdate">ДАТА РОЖДЕНИЯ <span class="required">*</span></label>
+                            <input type="date" id="birthdate" name="birthdate" required>
+                            <div class="error-message" id="birthdateError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">ТЕЛЕФОН <span class="required">*</span></label>
+                            <input type="tel" id="phone" name="phone" placeholder="+7 (999) 123-45-67" required>
+                            <div class="error-message" id="phoneError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">ПОЧТА <span class="required">*</span></label>
+                            <input type="email" id="email" name="email" placeholder="example@mail.ru" required>
+                            <div class="error-message" id="emailError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="experience">ОПЫТ РАБОТЫ (ЛЕТ) <span class="required">*</span></label>
+                            <input type="number" id="experience" name="experience" min="0" max="50" step="1" placeholder="0" required>
+                            <div class="error-message" id="experienceError"></div>
+                        </div>
+                    </div>
+
+                    <!-- ПРАВАЯ КОЛОНКА (ФОТО) -->
+                    <div class="right-col">
+                        <label>ФОТОГРАФИЯ</label>
+                        <div class="photo-upload">
+                            <div class="photo-preview" id="photoPreview">
+                                <img id="previewImg" src="#" alt="Превью" style="display: none;">
+                                <div class="placeholder" id="placeholderIcon">
+                                    <input type="file" id="photoInput" accept="image/jpeg, image/png, image/jpg">
+                                    <button type="button" id="uploadPhotoBtn" class="upload-btn">Загрузить фото</button>
+                                    <div class="error-message" id="photoError"></div>                                    
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- БЛОК СНИЗУ: ПОЧЕМУ ХОТИТЕ РАБОТАТЬ -->
+                <div class="form-group full-width">
+                    <label for="reason">ПОЧЕМУ ХОТИТЕ РАБОТАТЬ У НАС? <span class="required">*</span></label>
+                    <textarea id="reason" name="reason" rows="3" placeholder="Расскажите, почему вы хотите работать именно в нашей кофейне..." required></textarea>
+                    <div class="error-message" id="reasonError"></div>
+                </div>
+
+                <!-- СОГЛАСИЕ + КНОПКА -->
+                <div class="checkbox-group">
+                    <input type="checkbox" id="consent" required>
+                    <label for="consent" class="checkbox-label">Я согласен(на) на обработку персональных данных <span class="required">*</span></label>
+                </div>
+
+                <button type="submit" class="submit-btn">ОТПРАВИТЬ</button>
+            </form>
+
+            <div id="successMessage" class="success-message hidden">
+                Спасибо! Ваша анкета отправлена. Мы свяжемся с вами.
+            </div>
+        </div>
+    </div>
+    </div>
+    <script src="8_rabota\script.js"></script>
+
+        <footer class="menu-footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Компания</h3>
+                <a href="glav.html">Главная</a>
+                <a href="o_nas.html">О нас</a>
+                <a href="bron.html">Бронь</a>
+            </div>
+            <div class="footer-column">
+                <h3>Меню</h3>
+                <a href="napit.html">Напитки</a>
+                <a href="zackus.html">Закуски</a>
+                <a href="eda.html">Еда</a>
+            </div>
+            <div class="footer-column">
+                <h3>Работа</h3>
+                <a href="bar.html">Бариста</a>
+                <a href="povar.html">Повар</a>
+                <a href="ofic.html">Официант</a>
+            </div>
+            <div class="footer-column">
+                <h3>Контакты</h3>
+                <p class="footer-phone">+7 (3532) 000-00-00</p>
+                <p class="footer-phone-small">для звонков из России и других стран</p>
+                <p class="footer-email">PitStop@yandex.ru</p>
+                <a href="#" class="footer-link">Правила программы лояльности</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Pit-Stop</p>
+        </div>
+    </footer>
 </body>
 </html>

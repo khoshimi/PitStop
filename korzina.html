@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Корзина | Pit-Stop</title>
+    <link rel="stylesheet" href="korz/style.css">
+</head>
+<body>
+    <header id="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="glav.html"><img src="1_glav/logo.png" alt="Pit-Stop"></a>
+            </div>
+            <nav class="main-nav">
+                <a href="glav.html">Главная</a>
+                <a href="menu.html">Меню</a>
+                <a href="rab.html">Работа</a>
+                <a href="bron.html">Бронь</a>
+                <a href="o_nas.html">Контакты</a>
+            </nav>
+            <div class="header-actions">
+                <a href="profil.html" class="profile-icon">
+                    <img width="32" height="32" src="https://img.icons8.com/windows/96/user-male-circle.png" alt="profile">
+                </a>
+                <a href="korzina.html" class="cart-icon">
+                    <img width="28" height="28" src="https://img.icons8.com/pastel-glyph/64/shopping-cart--v1.png" alt="cart">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Бургер-меню -->
+    <input type="checkbox" id="menuToggle" class="menu-toggle">
+    <label for="menuToggle" class="burger-container">
+        <div class="burger-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </label>
+    <div class="nav-menu">
+        <div class="nav-menu-inner">
+            <p class="zagbur"><b>Компания</b></p>
+            <a href="glav.html" class="nav-item">Главная</a>
+            <a href="o_nas.html" class="nav-item">О нас</a>
+            <a href="bron.html" class="nav-item">Бронь</a>
+            <p class="zagbur"><b>Меню</b></p>
+            <a href="napitki.html" class="nav-item">Напитки</a>
+            <a href="zackus.html" class="nav-item">Закуски</a>
+            <a href="eda.html" class="nav-item">Еда</a>
+            <p class="zagbur"><b>Работа</b></p>
+            <a href="bar.html" class="nav-item">Бариста</a>
+            <a href="povar.html" class="nav-item">Повар</a>
+            <a href="ofic.html" class="nav-item">Официант</a>
+        </div>
+    </div>
+    <label for="menuToggle" class="overlay"></label>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ КОРЗИНЫ -->
+    <div class="cart-container">
+        <!-- ЛЕВАЯ КОЛОНКА: СПИСОК ТОВАРОВ -->
+        <div class="cart-items-section">
+            <div class="cart-header">
+                <h1>Корзина</h1>
+                <span class="items-count" id="itemsCount">0 товаров</span>
+            </div>
+            <div class="select-all">
+                <input type="checkbox" id="selectAllCheckbox">
+                <label for="selectAllCheckbox">Все</label>
+            </div>
+            <div id="cartItemsList" class="cart-items-list">
+                <!-- Сюда динамически подставляются товары -->
+                <div class="empty-cart">Корзина пуста</div>
+            </div>
+        </div>
+
+        <!-- ПРАВАЯ КОЛОНКА: ОФОРМЛЕНИЕ -->
+        <div class="checkout-section">
+            <div class="payment-icons">
+                <img src="https://img.icons8.com/color/48/000000/visa.png" alt="Visa">
+                <img src="https://img.icons8.com/color/48/000000/mastercard.png" alt="Mastercard">
+                <img src="https://img.icons8.com/color/48/000000/mir.png" alt="Mir">
+            </div>
+            <div class="bonus-table">
+                <label>
+                    <input type="checkbox" id="useBonuses"> Списать баллы
+                </label>
+                <div class="bonus-info" id="bonusInfo">У вас 325 баллов</div>
+            </div>
+            <div class="table-number">
+                <label>Номер столика</label>
+                <input type="number" id="tableNumber" placeholder="Введите номер столика">
+            </div>
+            <div class="total-price">
+                <span>Итого:</span>
+                <span id="totalPrice">0 ₽</span>
+            </div>
+            <div class="agree">
+                <input type="checkbox" id="agreeCheckbox">
+                <label>Я соглашаюсь с правилами пользования</label>
+            </div>
+            <button id="orderBtn" class="order-btn">ЗАКАЗАТЬ</button>
+        </div>
+    </div>
+
+    <!-- Модальное окно для подтверждения удаления -->
+    <div id="deleteModal" class="modal-overlay">
+        <div class="modal-content">
+            <p>Вы точно хотите удалить этот товар?</p>
+            <div class="modal-buttons">
+                <button id="confirmDelete">Да, удалить</button>
+                <button id="cancelDelete">Отмена</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="menu-footer">
+        <!-- тот же футер, что и на других страницах -->
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Компания</h3>
+                <a href="glav.html">Главная</a>
+                <a href="o_nas.html">О нас</a>
+                <a href="bron.html">Бронь</a>
+            </div>
+            <div class="footer-column">
+                <h3>Меню</h3>
+                <a href="napitki.html">Напитки</a>
+                <a href="zackus.html">Закуски</a>
+                <a href="eda.html">Еда</a>
+            </div>
+            <div class="footer-column">
+                <h3>Работа</h3>
+                <a href="bar.html">Бариста</a>
+                <a href="povar.html">Повар</a>
+                <a href="ofic.html">Официант</a>
+            </div>
+            <div class="footer-column">
+                <h3>Контакты</h3>
+                <p class="footer-phone">+7 (3532) 000-00-00</p>
+                <p class="footer-phone-small">для звонков из России и других стран</p>
+                <p class="footer-email">PitStop@yandex.ru</p>
+                <a href="#" class="footer-link">Правила программы лояльности</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Pit-Stop</p>
+        </div>
+    </footer>
+
+    <script src="korz/script.js"></script>
+</body>
+</html>

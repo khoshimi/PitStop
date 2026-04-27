@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Напитки | Pit-Stop</title>
+    <link rel="stylesheet" href="napitki/style.css">
+</head>
+<body>
+    <div class="fon"></div>
+
+    <header id="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="glav.html"><img src="1_glav/logo.png" alt="Pit-Stop"></a>
+            </div>
+            <nav class="main-nav">
+                <a href="glav.html">Главная</a>
+                <a href="menu.html">Меню</a>
+                <a href="rab.html">Работа</a>
+                <a href="bron.html">Бронь</a>
+                <a href="o_nas.html">Контакты</a>
+            </nav>
+            <div class="header-actions">
+                <a href="profil.html" class="profile-icon">
+                    <img width="32" height="32" src="https://img.icons8.com/windows/96/user-male-circle.png" alt="profile">
+                </a>
+                <a href="korzina.html" class="cart-icon">
+                    <img width="28" height="28" src="https://img.icons8.com/pastel-glyph/64/shopping-cart--v1.png" alt="cart">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Бургер-меню -->
+    <input type="checkbox" id="menuToggle" class="menu-toggle">
+    <label for="menuToggle" class="burger-container">
+        <div class="burger-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </label>
+    <div class="nav-menu">
+        <div class="nav-menu-inner">
+            <p class="zagbur"><b>Компания</b></p>
+            <a href="glav.html" class="nav-item">Главная</a>
+            <a href="o_nas.html" class="nav-item">О нас</a>
+            <a href="bron.html" class="nav-item">Бронь</a>
+            <p class="zagbur"><b>Меню</b></p>
+            <a href="napitki.html" class="nav-item">Напитки</a>
+            <a href="zackus.html" class="nav-item">Закуски</a>
+            <a href="eda.html" class="nav-item">Еда</a>
+            <p class="zagbur"><b>Работа</b></p>
+            <a href="bar.html" class="nav-item">Бариста</a>
+            <a href="povar.html" class="nav-item">Повар</a>
+            <a href="ofic.html" class="nav-item">Официант</a>
+        </div>
+    </div>
+    <label for="menuToggle" class="overlay"></label>
+
+    <div class="yakorya">
+        <a href="#lim"><button>ЛИМОНАДЫ</button></a>
+        <a href="#kok"><button>КОКТЕЙЛИ</button></a>
+        <a href="#tee"><button>КОФЕ/ЧАЙ</button></a>
+        <a href="#sok"><button>СОКИ/МОРСЫ</button></a>
+    </div>
+
+    <div id="menuList">
+        <!-- ЛИМОНАДЫ -->
+        <h6 id="lim">ЛИМОНАДЫ — Энергия</h6>
+        <p class="p_ber">Энергетический коктейль для пилота. Освежает, тонизирует, дает силы.</p>
+        <div class="burg">
+            <div class="card" data-id="limo_eau">
+                <img src="napitki/eaurou.png" alt="Лимонад Eau Rouge">
+                <button>в корзину</button>
+            </div>
+            <div class="card" data-id="limo_monza">
+                <img src="napitki/monca.png" alt="Лимонад Монца">
+                <button>в корзину</button>
+            </div>
+            <div class="card" data-id="limo_monaco">
+                <img src="napitki/monaco.png" alt="Лимонад Монако">
+                <button>в корзину</button>
+            </div>
+            <div class="card" data-id="limo_silverstone">
+                <img src="napitki/silv.png" alt="Лимонад Сильверстоун">
+                <button>в корзину</button>
+            </div>
+        </div>
+
+        <!-- МОЛОЧНЫЕ КОКТЕЙЛИ -->
+        <h6 id="kok">МОЛОЧНЫЕ КОКТЕЙЛИ — Мощность</h6>
+        <p class="p_ber">Как двигатель V6 — мощно, насыщенно, с характером.</p>
+        <div class="burg">
+            <div class="card" data-id="shake_schumacher">
+                <img src="napitki/schumacher.png" alt="Шейк Шумахер">
+                <button>в корзину</button>
+            </div>
+            <div class="card" data-id="shake_hamilton">
+                <img src="napitki/hammilton.png" alt="Шейк Хэмилтон">
+                <button>в корзину</button>
+            </div>
+            <div class="card" data-id="shake_kids">
+                <img src="napitki/kids.png" alt="Детский шейк">
+                <button>в корзину</button>
+            </div>
+        </div>
+
+        <!-- КОФЕ / ЧАЙ -->
+        <h6 id="tee">КОФЕ / ЧАЙ — Тонизаторы</h6>
+        <p class="p_ber">Для долгой гонки и концентрации. Как система Halo — защита и фокус.</p>
+        <div class="burg">
+            <div class="card" data-id="hot_tea_coffee">
+                <img src="napitki/tee.png" alt="Чай/кофе" class="teee">
+                <button class="special-order-btn" data-type="coffee-tea">в корзину</button>
+            </div>
+        </div>
+
+        <!-- СОКИ / МОРСЫ -->
+        <h6 id="sok">СОКИ / МОРСЫ — Витаминная атака</h6>
+        <p class="p_ber">Витаминная атака перед гонкой. Как система DRS — дополнительная энергия.</p>
+        <div class="burg">
+            <div class="card" data-id="juice_mors">
+                <img src="napitki/soki.png" alt="Соки/морсы" class="teee">
+                <button class="special-order-btn" data-type="juice">в корзину</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Блок детального просмотра -->
+    <div id="detailView" class="detail-view">
+        <button class="back-to-menu" id="backBtn">← Назад к меню</button>
+        <div id="detailContent"></div>
+    </div>
+
+    <!-- МОДАЛЬНОЕ ОКНО ДЛЯ КОФЕ/ЧАЯ -->
+    <div id="coffeeTeaModal" class="garnish-modal">
+        <div class="garnish-modal-content">
+            <span class="modal-close" data-modal="coffeeTeaModal">&times;</span>
+            <h3>Выберите напиток</h3>
+            <div class="garnish-options">
+                <button data-item="Эспрессо-старт">Эспрессо-старт 150₽</button>
+                <button data-item="Капучино-круг">Капучино-круг 220₽</button>
+                <button data-item="Латте-финиш">Латте-финиш 240₽</button>
+                <button data-item="Флэт-уайт">Флэт-уайт 260₽</button>
+                <button data-item="Матча-старт">Матча-старт 340₽</button>
+                <button data-item="Чай-пилот">Чай-пилот 180₽</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- МОДАЛЬНОЕ ОКНО ДЛЯ СОКОВ/МОРСОВ -->
+    <div id="juiceModal" class="garnish-modal">
+        <div class="garnish-modal-content">
+            <span class="modal-close" data-modal="juiceModal">&times;</span>
+            <h3>Выберите напиток</h3>
+            <div class="garnish-options">
+                <button data-item="Сок апельсин">Сок апельсин 290₽</button>
+                <button data-item="Сок грейпфрут">Сок грейпфрут 290₽</button>
+                <button data-item="Сок яблоко">Сок яблоко 290₽</button>
+                <button data-item="Морс гоночный">Морс гоночный 250₽</button>
+                <button data-item="Смузи Алонсо">Смузи Алонсо 320₽</button>
+                <button data-item="Морс ягодный">Морс ягодный 260₽</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Кнопка "Наверх" -->
+    <button id="backToTop" class="back-to-top" aria-label="Наверх">↑</button>
+
+    <footer class="menu-footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Компания</h3>
+                <a href="glav.html">Главная</a>
+                <a href="o_nas.html">О нас</a>
+                <a href="bron.html">Бронь</a>
+            </div>
+            <div class="footer-column">
+                <h3>Меню</h3>
+                <a href="napitki.html">Напитки</a>
+                <a href="zackus.html">Закуски</a>
+                <a href="eda.html">Еда</a>
+            </div>
+            <div class="footer-column">
+                <h3>Работа</h3>
+                <a href="bar.html">Бариста</a>
+                <a href="povar.html">Повар</a>
+                <a href="ofic.html">Официант</a>
+            </div>
+            <div class="footer-column">
+                <h3>Контакты</h3>
+                <p class="footer-phone">+7 (3532) 000-00-00</p>
+                <p class="footer-phone-small">для звонков из России и других стран</p>
+                <p class="footer-email">PitStop@yandex.ru</p>
+                <a href="#" class="footer-link">Правила программы лояльности</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Pit-Stop</p>
+        </div>
+    </footer>
+
+    <script src="napitki/script.js"></script>
+</body>
+</html>

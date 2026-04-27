@@ -57,6 +57,18 @@ if (scrollContainer) {
 window.addEventListener('resize', updateThumbPosition);
 setTimeout(updateThumbPosition, 100);
 
+// ========== НОВОЕ: ПРОКРУТКА КОЛЁСИКОМ МЫШИ (горизонтальная) ==========
+if (scrollContainer) {
+    scrollContainer.addEventListener('wheel', (e) => {
+        // Игнорируем, если зажат Shift или Ctrl (обычно они меняют направление)
+        if (e.shiftKey || e.ctrlKey) return;
+        // Прокручиваем контейнер горизонтально на величину вертикального движения колеса
+        scrollContainer.scrollLeft += e.deltaY;
+        // Предотвращаем вертикальную прокрутку страницы, пока курсор над контейнером
+        e.preventDefault();
+    }, { passive: false });
+}
+
 // ========== ТАЙМЕР (только часы, минуты, секунды) ==========
 const hoursElement = document.getElementById('hours');
 const minutesElement = document.getElementById('minutes');

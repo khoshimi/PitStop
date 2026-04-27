@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Закуски | Pit-Stop</title>
+    <link rel="stylesheet" href="zakuski/style.css">
+</head>
+<body>
+    <div class="fon"></div>
+
+    <header id="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="glav.html"><img src="1_glav/logo.png" alt="Pit-Stop"></a>
+            </div>
+            <nav class="main-nav">
+                <a href="glav.html">Главная</a>
+                <a href="menu.html">Меню</a>
+                <a href="rab.html">Работа</a>
+                <a href="bron.html">Бронь</a>
+                <a href="o_nas.html">Контакты</a>
+            </nav>
+            <div class="header-actions">
+                <a href="profil.html" class="profile-icon">
+                    <img width="32" height="32" src="https://img.icons8.com/windows/96/user-male-circle.png" alt="profile">
+                </a>
+                <a href="korzina.html" class="cart-icon">
+                    <img width="28" height="28" src="https://img.icons8.com/pastel-glyph/64/shopping-cart--v1.png" alt="cart">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Бургер-меню -->
+    <input type="checkbox" id="menuToggle" class="menu-toggle">
+    <label for="menuToggle" class="burger-container">
+        <div class="burger-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </label>
+    <div class="nav-menu">
+        <div class="nav-menu-inner">
+            <p class="zagbur"><b>Компания</b></p>
+            <a href="glav.html" class="nav-item">Главная</a>
+            <a href="o_nas.html" class="nav-item">О нас</a>
+            <a href="bron.html" class="nav-item">Бронь</a>
+            <p class="zagbur"><b>Меню</b></p>
+            <a href="napit.html" class="nav-item">Напитки</a>
+            <a href="zackus.html" class="nav-item">Закуски</a>
+            <a href="eda.html" class="nav-item">Еда</a>
+            <p class="zagbur"><b>Работа</b></p>
+            <a href="bar.html" class="nav-item">Бариста</a>
+            <a href="povar.html" class="nav-item">Повар</a>
+            <a href="ofic.html" class="nav-item">Официант</a>
+        </div>
+    </div>
+    <label for="menuToggle" class="overlay"></label>
+
+    <div class="yakorya">
+        <a href="#salatas"><button>САЛАТЫ</button></a>
+        <a href="#zackus"><button>ЗАКУСКИ</button></a>
+        <a href="#dop"><button>ДОПОЛНИТЕЛЬНО</button></a>
+    </div>
+
+    <!-- ЕДИНЫЙ КОНТЕЙНЕР СО ВСЕМИ БЛЮДАМИ -->
+    <div id="menuList">
+        <!-- САЛАТЫ -->
+        <h6 id="salatas">САЛАТЫ — Легкий вес</h6>
+        <p class="p_ber">Спа — королевская трасса. Здесь важна каждая секунда и каждый килограмм.</p>
+        <div class="burg">
+            <div class="card" data-id="salad_eau">
+                <img src="zakuski/eau.png" alt="Салат Eau Rouge">
+                <button>в корзину</button>
+            </div>
+            <div class="card" data-id="salad_cezar">
+                <img src="zakuski/cez.png" alt="Цезарь">
+                <button>в корзину</button>
+            </div>
+        </div>
+        <div class="burg">
+            <div class="card" data-id="salad_grech">
+                <img src="zakuski/grech.png" alt="Греческий салат">
+                <button>в корзину</button>
+            </div>
+            <div class="card" data-id="salad_londo">
+                <img src="zakuski/londo.png" alt="Лондонский салат">
+                <button>в корзину</button>
+            </div>
+        </div>
+
+        <!-- ЗАКУСКИ -->
+        <h6 id="zackus">ЗАКУСКИ — Пит-стоп</h6>
+        <p class="p_ber">Быстрый заезд на пит-стоп. Легкие закуски, которые не отвлекут от гонки.</p>
+        <div class="burg">
+            <div class="card" data-id="snack_wings">
+                <img src="zakuski/kril.png" alt="Крылышки">
+                <button>в корзину</button>
+            </div>
+            <div class="card" data-id="snack_nachos">
+                <img src="zakuski/nag.png" alt="Начос">
+                <button>в корзину</button>
+            </div>
+        </div>
+        <div class="burg">
+            <div class="card" data-id="snack_rolls">
+                <img src="zakuski/roll.png" alt="Роллы">
+                <button>в корзину</button>
+            </div>
+            <div class="card" data-id="snack_potato">
+                <img src="zakuski/kartof.png" alt="Картофель по-деревенски">
+                <button>в корзину</button>
+            </div>
+        </div>
+        <div class="burg">
+            <div class="card" data-id="snack_cheese">
+                <img src="zakuski/sir.png" alt="Сырные палочки">
+                <button>в корзину</button>
+            </div>
+            <div class="card" data-id="snack_veg">
+                <img src="zakuski/ovoch.png" alt="Овощная тарелка">
+                <button>в корзину</button>
+            </div>
+        </div>
+    </div> <!-- закрываем menuList -->
+
+    <!-- Блок дополнительных позиций (бывший гарнир) -->
+    <div class="cont_gar">
+        <div>
+            <p class="gar" id="dop">ДОПОЛНИТЕЛЬНО — Бортовой журнал</p>
+            <p class="garnir">То, что всегда должно быть в боксе.</p>
+            <div class="dop">
+                <div>
+                    <p class="cras">Хлебная корзина (багет, чиабатта, бородинский)</p>
+                    <p class="bel">Оливки/маслины</p>
+                    <p class="cras">Маринованные огурцы</p>
+                    <p class="bel">Соусы (барбекю, сырный, чесночный, кисло-сладкий)</p>
+                </div>
+                <div class="zena">
+                    <p class="cras">| 150₽</p>
+                    <p class="bel">| 120₽</p>
+                    <p class="cras">| 110₽</p>
+                    <p class="bel">| 60₽</p>
+                </div>
+            </div>
+            <button id="chooseExtraBtn">в корзину</button>
+        </div>
+    </div>
+
+    <!-- Блок детального просмотра -->
+    <div id="detailView" class="detail-view">
+        <button class="back-to-menu" id="backBtn">← Назад к меню</button>
+        <div id="detailContent"></div>
+    </div>
+
+    <!-- Модальное окно для выбора дополнительных позиций -->
+    <div id="extraModal" class="garnish-modal">
+        <div class="garnish-modal-content">
+            <span class="garnish-modal-close">&times;</span>
+            <h3>Выберите дополнительную позицию</h3>
+            <div class="garnish-options">
+                <button data-extra="Хлебная корзина (багет, чиабатта, бородинский)" data-price="150">Хлебная корзина | 150₽</button>
+                <button data-extra="Оливки/маслины" data-price="120">Оливки/маслины | 120₽</button>
+                <button data-extra="Маринованные огурцы" data-price="110">Маринованные огурцы | 110₽</button>
+                <button data-extra="Соусы (барбекю, сырный, чесночный, кисло-сладкий)" data-price="60">Соусы | 60₽</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Кнопка "Наверх" -->
+    <button id="backToTop" class="back-to-top" aria-label="Наверх">↑</button>
+
+    <footer class="menu-footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Компания</h3>
+                <a href="glav.html">Главная</a>
+                <a href="o_nas.html">О нас</a>
+                <a href="bron.html">Бронь</a>
+            </div>
+            <div class="footer-column">
+                <h3>Меню</h3>
+                <a href="napit.html">Напитки</a>
+                <a href="zackus.html">Закуски</a>
+                <a href="eda.html">Еда</a>
+            </div>
+            <div class="footer-column">
+                <h3>Работа</h3>
+                <a href="bar.html">Бариста</a>
+                <a href="povar.html">Повар</a>
+                <a href="ofic.html">Официант</a>
+            </div>
+            <div class="footer-column">
+                <h3>Контакты</h3>
+                <p class="footer-phone">+7 (3532) 000-00-00</p>
+                <p class="footer-phone-small">для звонков из России и других стран</p>
+                <p class="footer-email">PitStop@yandex.ru</p>
+                <a href="#" class="footer-link">Правила программы лояльности</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Pit-Stop</p>
+        </div>
+    </footer>
+
+    <script src="zakuski/script.js"></script>
+</body>
+</html>

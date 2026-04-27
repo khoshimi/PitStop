@@ -251,10 +251,11 @@ body {
 
 /* ========== КАРУСЕЛЬ С ФОНОВЫМИ ИЗОБРАЖЕНИЯМИ ========== */
 .hero-carousel {
-    width: 100%;
-    height: 600px;
     position: relative;
     overflow: hidden;
+    background-size: cover;
+    width: 100%;
+    height: 645px;
 }
 
 .carousel-container {

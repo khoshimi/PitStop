@@ -22,6 +22,68 @@
 body {
     background-color: #1A1A1A;
 }
+.fon {
+    width: 100%;
+    height: 645px;
+    position: relative;
+    overflow: hidden;
+}
+
+.video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.fon::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+
+.slide-up-text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 60px 40px 130px 40px;
+    color: white;
+    z-index: 10;
+    transform: translateY(100%);
+    animation: slideUp 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+    animation-delay: 1s;
+    text-align: center;
+}
+
+.slide-up-text p {
+    opacity: 0;
+    animation: fadeIn 0.6s ease-out forwards;
+    animation-delay: 0.8s;
+}
+.slide-up-text h6{
+    font-family: 'Zag';
+    font-size: 96px;
+}
+
+@keyframes slideUp {
+    0% { transform: translateY(100%); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
 
 /* ========== ШАПКА ========== */
 #main-header {
@@ -310,7 +372,7 @@ body {
 .zag_gp {
     font-family: 'Zag';
     font-size: 64px;
-    color: #C30000;
+    color: #7D0000;
     margin-top: 0px;
     text-transform: uppercase;
 }
@@ -327,7 +389,7 @@ body {
 button {
     width: 350px;
     height: 51px;
-    border: 2px solid #C30000;
+    border: 2px solid #7D0000;
     border-radius: 10px;
     background-color: transparent;
     color: #ffffff;
@@ -338,37 +400,34 @@ button {
 }
 
 button:hover {
-    background-color: #C30000;
+    background-color: #7D0000;
     border-color: #ffffff;
 }
 
 .avstriya {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin-bottom: 30px;
+    gap: 20px
 }
 
 .avstriya_zag {
-    font-family: 'vezla';
-    font-size: 40px;
-    color: #C30000;
-    margin-bottom: 10px;
+    font-family: 'Zag';
+    font-size: 59px;
+    color: #7D0000;
 }
 
 .avstriya_etapy {
-    font-family: 'vezla';
+    font-family: 'osn';
     font-size: 32px;
     color: #ffffff;
     margin-top: 0px;
 }
 
 .avstriya_data {
-    font-family: 'vezla';
+    font-family: 'osn';
     font-size: 48px;
     color: #ffffff;
+    margin-left: 400px;
+
 }
 
 hr {
@@ -390,13 +449,16 @@ hr {
 }
 
 .time {
-    font-family: 'vezla';
+    font-family: 'osn';
     font-size: 28px;
     color: #545454;
-    margin-top: -10px;
     margin-bottom: 20px;
 }
-
+.avstriya_datatoch{
+    font-family: 'osn';
+    color: #7D0000;
+    font-size: 24px;
+}
 .blok {
     display: flex;
     justify-content: space-between;
@@ -428,7 +490,56 @@ hr {
     height: auto;
     border-radius: 16px;
 }
+.round {
+    display: flex;
+    gap: 20px;
+    border-bottom: 1px solid #D9D9D9;
+    padding-bottom: 13px;
+}
 
+.round_zag {
+    font-family: 'Zag';
+    font-size: 36px;
+    color: #7D0000;
+}
+
+.round_etapy {
+    font-family: 'osn';
+    font-size: 24px;
+    color: #ffffff;
+    margin-top: 0px;
+}
+
+.round_data {
+    font-family: 'osn';
+    font-size: 24px;
+    color: #ffffff;
+    
+}
+
+.daty {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.round_time {
+    font-family: 'osn';
+    font-size: 14px;
+    color: #545454;
+    margin-bottom: 2px;
+}
+.round_datatoch{
+    margin-top: 17px;
+    font-family: 'osn';
+    color: #7D0000;
+    font-size: 24px;
+}
+.blok{
+    display: flex;
+}
 /* ========== АДАПТИВНОСТЬ ========== */
 @media (max-width: 1024px) {
     .main-nav {
@@ -621,4 +732,394 @@ hr {
     padding-top: 40px;
     margin-top: 40px;
     color: #666;
+}
+/* ===== ДОПОЛНИТЕЛЬНЫЕ СТИЛИ ДЛЯ ФИЛЬТРОВ И МОДАЛЬНОГО ОКНА ===== */
+.filters {
+    display: flex;
+    gap: 20px;
+    margin: 30px 0;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.filters select, .filters button {
+    background: #545454;
+    border-radius: 27px;
+    padding: 8px 16px;
+    color: white;
+    font-family: 'osn', sans-serif;
+    font-size: 24px;
+    cursor: pointer;
+    transition: 0.2s;
+    text-align: center;
+}
+
+.filters button {
+    width: auto;
+    background: #1A1A1A;
+}
+.filters button:hover {
+    background: #7D0000;
+}
+
+.modal-booking {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+}
+.modal-booking-content {
+    background: #1A1A1A;
+    border: 2px solid #7D0000;
+    border-radius: 20px;
+    padding: 25px;
+    max-width: 800px;
+    width: 90%;
+    max-height: 85vh;
+    overflow-y: auto;
+    color: white;
+    position: relative;
+}
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #aaa;
+}
+.close-modal:hover {
+    color: #7D0000;
+}
+.hall-map {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+.hall-map button {
+    background: #2a2a2a;
+    border: 1px solid #7D0000;
+    border-radius: 12px;
+    padding: 12px;
+    cursor: pointer;
+    color: white;
+    font-family: 'osn', sans-serif;
+    transition: 0.2s;
+}
+.hall-map button:hover {
+    background: #7D0000;
+}
+.booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+.booking-form label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+.booking-form input {
+    background: #2a2a2a;
+    border: 1px solid #7D0000;
+    padding: 8px 12px;
+    border-radius: 8px;
+    color: white;
+    font-family: 'osn', sans-serif;
+}
+#confirmBookingBtn {
+    background: #7D0000;
+    border: none;
+    padding: 12px;
+    border-radius: 40px;
+    color: white;
+    cursor: pointer;
+    font-family: 'Zag', sans-serif;
+    font-size: 18px;
+    transition: 0.2s;
+}
+#confirmBookingBtn:hover {
+    background: #480000;
+}
+#selectedTableName {
+    color: #7D0000;
+    font-weight: bold;
+}
+/* ===== СХЕМА ЗАЛА В МОДАЛЬНОМ ОКНЕ ===== */
+.hall-scheme {
+    background: #1f1f1f;
+    border-radius: 24px;
+    padding: 20px;
+    margin: 15px 0;
+    font-family: 'osn', sans-serif;
+}
+.screen-area {
+    text-align: center;
+    margin-bottom: 25px;
+    padding: 14px;
+    background: #2a2a2a;
+    border-radius: 40px;
+    border: 2px solid #7D0000;
+    font-size: 22px;
+    font-weight: bold;
+    color: #FFD700;
+    letter-spacing: 2px;
+}
+.zones-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+.zone-card {
+    background: #1a1a1a;
+    border-radius: 20px;
+    padding: 12px;
+    flex: 1;
+    min-width: 180px;
+    border: 1px solid #7D0000;
+}
+.zone-title {
+    text-align: center;
+    font-family: 'Zag', sans-serif;
+    font-size: 18px;
+    color: #7D0000;
+    margin-bottom: 12px;
+}
+.table-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+.table-item {
+    background: #2a2a2a;
+    border-radius: 16px;
+    padding: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s;
+    border: 1px solid #7D0000;
+    min-width: 70px;
+}
+.table-item.selected {
+    border: 2px solid #FFD700;
+    background: #7D0000;
+}
+.table-item:hover {
+    background: #7D0000;
+    transform: scale(1.02);
+}
+.table-number {
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+}
+.table-seats {
+    font-size: 11px;
+    color: #ccc;
+    margin-top: 4px;
+}
+.single-tables {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+}
+.order-desk {
+    text-align: center;
+    margin-top: 20px;
+    padding: 14px;
+    background: #2a2a2a;
+    border-radius: 40px;
+    border: 2px solid #7D0000;
+    font-size: 20px;
+    font-weight: bold;
+    color: #FFD700;
+}
+/* ===== КЛИКАБЕЛЬНЫЕ ЭЛЕМЕНТЫ РАСПИСАНИЯ ===== */
+.clickable-session {
+    cursor: pointer;
+    transition: color 0.2s ease;
+    display: inline-block;
+}
+.clickable-session:hover {
+    color: #7D0000 !important;
+    text-decoration: underline;
+}
+
+/* Фильтры – убеждаемся, что они отдельно */
+.filters {
+    display: flex;
+    gap: 20px;
+    margin: 30px 0;
+    flex-wrap: wrap;
+    align-items: center;
+}
+/* Блок .round — используем flex для вертикального центрирования левой части */
+.round {
+    position: relative;
+    display: flex;
+    align-items: center;      /* вертикальное центрирование содержимого */
+    justify-content: flex-start; /* прижимаем всё к левому краю */
+    gap: 15px;
+    padding-right: 100px;    /* чтобы дата не наезжала на текст */
+    min-height: 80px;        /* при необходимости задайте высоту */
+}
+
+/* Флаг и текстовая группа */
+.round img {
+    display: block;
+
+}
+
+.round > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  /* центрируем текст внутри блока */
+}
+
+/* Дату прижимаем к правому нижнему углу */
+.round .round_data {
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    margin: 0;
+}
+/* Блок ближайшего Гран-при */
+.avstriya {
+    position: relative;
+    display: flex;
+    align-items: center;      /* вертикальное центрирование левой части */
+    justify-content: flex-start;
+    gap: 20px;
+    padding-right: 120px;     /* чтобы дата не наезжала */
+    min-height: 100px;
+}
+
+.avstriya img {
+    width: auto;
+}
+
+.avstriya > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.avstriya .avstriya_data {
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    margin: 0;
+}
+/* ========== ФОН С АНИМАЦИЕЙ ВЫЕЗДА ========== */
+.fon {
+    position: relative;
+    width: 100%;
+    height: 645px;
+    overflow: hidden;
+    margin-top: 80px;
+}
+.fon-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+.fon-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5%;
+}
+.fon-text {
+    max-width: 55%;
+    color: white;
+    opacity: 0;
+    transform: translateX(-100px);
+    animation: slideInLeft 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+    animation-delay: 0.5s;
+}
+.fon-text h6 {
+    font-family: 'Zag', sans-serif;
+    font-size: 96px;
+    margin-bottom: 20px;
+}
+.fon-text p {
+    font-family: 'osn', sans-serif;
+    font-size: 40px;
+}
+.fon-charles {
+    max-height: 90%;
+    width: auto;
+    opacity: 0;
+    transform: translateX(100px);
+    animation: slideInRight 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+    animation-delay: 0.5s;
+    margin-bottom: -70px;
+}
+@keyframes slideInLeft {
+    0% { opacity: 0; transform: translateX(-100px); }
+    100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInRight {
+    0% { opacity: 0; transform: translateX(100px); }
+    100% { opacity: 1; transform: translateX(0); }
+}
+/* Адаптив для мобильных */
+@media (max-width: 768px) {
+    .fon-content {
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        gap: 20px;
+    }
+    .fon-text {
+        max-width: 90%;
+    }
+    .fon-text h6 {
+        font-size: 48px;
+    }
+    .fon-text p {
+        font-size: 18px;
+    }
+    .fon-charles {
+        max-height: 40%;
+    }
+    @keyframes slideInLeft {
+        0% { opacity: 0; transform: translateY(-50px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideInRight {
+        0% { opacity: 0; transform: translateY(50px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+}
+@media (max-width: 480px) {
+    .fon-text h6 {
+        font-size: 32px;
+    }
+    .fon-text p {
+        font-size: 14px;
+    }
 }

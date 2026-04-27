@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Еда | Pit-Stop</title>
+    <link rel="stylesheet" href="eda/style.css">
+</head>
+<body>
+    <div class="fon"></div>
+
+    <header id="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="glav.html"><img src="1_glav/logo.png" alt="Pit-Stop"></a>
+            </div>
+            <nav class="main-nav">
+                <a href="glav.html">Главная</a>
+                <a href="menu.html">Меню</a>
+                <a href="rab.html">Работа</a>
+                <a href="bron.html">Бронь</a>
+                <a href="o_nas.html">Контакты</a>
+            </nav>
+            <div class="header-actions">
+                <a href="profil.html" class="profile-icon">
+                    <img width="32" height="32" src="https://img.icons8.com/windows/96/user-male-circle.png" alt="profile">
+                </a>
+                <a href="korzina.html" class="cart-icon">
+                    <img width="28" height="28" src="https://img.icons8.com/pastel-glyph/64/shopping-cart--v1.png" alt="cart">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Бургер-меню -->
+    <input type="checkbox" id="menuToggle" class="menu-toggle">
+    <label for="menuToggle" class="burger-container">
+        <div class="burger-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </label>
+    <div class="nav-menu">
+        <div class="nav-menu-inner">
+            <p class="zagbur"><b>Компания</b></p>
+            <a href="glav.html" class="nav-item">Главная</a>
+            <a href="o_nas.html" class="nav-item">О нас</a>
+            <a href="bron.html" class="nav-item">Бронь</a>
+            <p class="zagbur"><b>Меню</b></p>
+            <a href="napit.html" class="nav-item">Напитки</a>
+            <a href="zackus.html" class="nav-item">Закуски</a>
+            <a href="eda.html" class="nav-item">Еда</a>
+            <p class="zagbur"><b>Работа</b></p>
+            <a href="bar.html" class="nav-item">Бариста</a>
+            <a href="povar.html" class="nav-item">Повар</a>
+            <a href="ofic.html" class="nav-item">Официант</a>
+        </div>
+    </div>
+    <label for="menuToggle" class="overlay"></label>
+
+    <div class="yakorya">
+        <a href="#burg"><button>БУРГЕРЫ</button></a>
+        <a href="#pizza"><button>ПИЦЦА</button></a>
+        <a href="#pasta"><button>ПАСТА</button></a>
+        <a href="#osn"><button>ОСНОВНЫЕ БЛЮДА</button></a>
+        <a href="#gar"><button>ГАРНИРЫ</button></a>
+    </div>
+
+    <!-- ЕДИНЫЙ КОНТЕЙНЕР СО ВСЕМИ БЛЮДАМИ -->
+    <div id="menuList">
+        <!-- БУРГЕРЫ -->
+        <h6 id="burg">БУРГЕРЫ — Легенды F1</h6>
+        <p class="p_ber">Бургеры, названные в честь величайших пилотов. Выбирай своего чемпиона.</p>
+        <div class="burg">
+            <div class="card" data-id="senna">
+                <img src="eda/сенна.png" alt="Бургер Сенна">
+                <button>в корзину</button>
+            </div>
+            <div class="card" data-id="schumacher">
+                <img src="eda/шумахер.png" alt="Бургер Шумахер">
+                <button>в корзину</button>
+            </div>
+            <div class="card" data-id="hamilton">
+                <img src="eda/хемилтон.png" alt="Бургер Хэмилтон">
+                <button>в корзину</button>
+            </div>
+        </div>
+        <div class="burg">
+            <div class="card" data-id="verstappen">
+                <img src="eda/ферстаппен.png" alt="Бургер Ферстаппен">
+                <button>в корзину</button>
+            </div>
+            <div class="card" data-id="alonso">
+                <img src="eda/алонсо.png" alt="Бургер Алонсо">
+                <button>в корзину</button>
+            </div>
+            <div class="card" data-id="norris">
+                <img src="eda/норрис.png" alt="Бургер Норрис">
+                <button>в корзину</button>
+            </div>
+        </div>
+
+        <!-- ПИЦЦА -->
+        <h6 id="pizza">ПИЦЦА — Трассы мира</h6>
+        <p class="p_ber">Путешествие по лучшим трассам. Каждая пицца — свой характер, свой стиль.</p>
+        <div class="burg">
+            <div class="card" data-id="pizza_monza">
+                <img src="eda/монца.png" alt="Пицца Монца">
+                <button>в корзину</button>
+            </div>
+            <div class="card" data-id="pizza_monaco">
+                <img src="eda/монако.png" alt="Пицца Монако">
+                <button>в корзину</button>
+            </div>
+        </div>
+        <div class="burg">
+            <div class="card" data-id="pizza_silverstone">
+                <img src="eda/сильверстоун.png" alt="Пицца Сильверстоун">
+                <button>в корзину</button>
+            </div>
+            <div class="card" data-id="pizza_spa">
+                <img src="eda/спа.png" alt="Пицца Спа">
+                <button>в корзину</button>
+            </div>
+        </div>
+
+        <!-- ПАСТА -->
+        <h6 id="pasta">ПАСТА — Итальянский этап</h6>
+        <p class="p_ber">Домашний этап Ferrari. Итальянская страсть в каждой тарелке.</p>
+        <div class="burg">
+            <div class="card" data-id="pasta_carbonara">
+                <img src="eda/карбонара.png" alt="Паста Карбонара">
+                <button>в корзину</button>
+            </div>
+            <div class="card" data-id="pasta_bolognese">
+                <img src="eda/болонезе.png" alt="Паста Болоньезе">
+                <button>в корзину</button>
+            </div>
+            <div class="card" data-id="pasta_alfredo">
+                <img src="eda/альфредо.png" alt="Паста Альфредо">
+                <button>в корзину</button>
+            </div>
+            <div class="card" data-id="pasta_lasagna">
+                <img src="eda/лазанья.png" alt="Лазанья">
+                <button>в корзину</button>
+            </div>
+        </div>
+
+        <!-- ОСНОВНЫЕ БЛЮДА -->
+        <h6 id="osn">ОСНОВНЫЕ БЛЮДА — Главный заезд</h6>
+        <p class="p_ber">Сытные блюда для настоящих гонщиков.</p>
+        <div class="burg">
+            <div class="card" data-id="main_steak">
+                <img src="eda/стейк.png" alt="Стейк">
+                <button>в корзину</button>
+            </div>
+            <div class="card" data-id="main_chicken">
+                <img src="eda/курица.png" alt="Курица">
+                <button>в корзину</button>
+            </div>
+            <div class="card" data-id="main_salmon">
+                <img src="eda/лосось.png" alt="Лосось">
+                <button>в корзину</button>
+            </div>
+            <div class="card" data-id="main_steak2">
+                <img src="eda/стейк_2.png" alt="Стейк 2">
+                <button>в корзину</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ГАРНИРЫ -->
+    <div class="cont_gar">
+        <img src="eda/гарниры.png" alt="">
+        <div>
+            <p class="gar" id="gar">ГАРНИРЫ — Смена шин</p>
+            <p class="garnir">Правильные шины — залог быстрого круга. Правильные гарниры — залог сытости.</p>
+            <div>
+                <p class="cras">Картошка фри 190₽</p>
+                <p class="bel">Картофельное пюре 180₽</p>
+                <p class="cras">Рис пилота (овощной) 170₽</p>
+                <p class="bel">Овощи гриль 220₽</p>
+                <p class="cras">Сладкий картофель фри 210₽</p>
+            </div>
+            <button id="chooseGarnishBtn">в корзину</button>
+        </div>
+    </div>
+
+    <!-- Блок детального просмотра (изначально скрыт) -->
+    <div id="detailView" class="detail-view">
+        <button class="back-to-menu" id="backBtn">← Назад к меню</button>
+        <div id="detailContent"></div>
+    </div>
+
+    <!-- Модальное окно для выбора гарнира -->
+    <div id="garnishModal" class="garnish-modal">
+        <div class="garnish-modal-content">
+            <span class="garnish-modal-close">&times;</span>
+            <h3>Выберите гарнир</h3>
+            <div class="garnish-options">
+                <button data-garnish="Картошка фри" data-price="190">Картошка фри 190₽</button>
+                <button data-garnish="Картофельное пюре" data-price="180">Картофельное пюре 180₽</button>
+                <button data-garnish="Рис пилота (овощной)" data-price="170">Рис пилота (овощной) 170₽</button>
+                <button data-garnish="Овощи гриль" data-price="220">Овощи гриль 220₽</button>
+                <button data-garnish="Сладкий картофель фри" data-price="210">Сладкий картофель фри 210₽</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Кнопка "Наверх" -->
+    <button id="backToTop" class="back-to-top" aria-label="Наверх">↑</button>
+
+    <footer class="menu-footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Компания</h3>
+                <a href="glav.html">Главная</a>
+                <a href="o_nas.html">О нас</a>
+                <a href="bron.html">Бронь</a>
+            </div>
+            <div class="footer-column">
+                <h3>Меню</h3>
+                <a href="napit.html">Напитки</a>
+                <a href="zackus.html">Закуски</a>
+                <a href="eda.html">Еда</a>
+            </div>
+            <div class="footer-column">
+                <h3>Работа</h3>
+                <a href="bar.html">Бариста</a>
+                <a href="povar.html">Повар</a>
+                <a href="ofic.html">Официант</a>
+            </div>
+            <div class="footer-column">
+                <h3>Контакты</h3>
+                <p class="footer-phone">+7 (3532) 000-00-00</p>
+                <p class="footer-phone-small">для звонков из России и других стран</p>
+                <p class="footer-email">PitStop@yandex.ru</p>
+                <a href="#" class="footer-link">Правила программы лояльности</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Pit-Stop</p>
+        </div>
+    </footer>
+
+    <script src="eda/script.js"></script>
+</body>
+</html>
