@@ -572,12 +572,123 @@ body {
     filter: brightness(0.8);
 }
 
-/* Адаптив */
+/* ========== АДАПТИВНОСТЬ ========== */
+@media (max-width: 1024px) {
+    .cart-container {
+        margin-top: 100px;
+        gap: 24px;
+        padding: 0 20px;
+    }
+
+    .cart-header h1 {
+        font-size: 28px;
+    }
+
+    .total-price {
+        font-size: 24px;
+    }
+}
+
 @media (max-width: 900px) {
     .cart-container {
         flex-direction: column;
+        margin-top: 88px;
     }
-    .cart-items-section, .checkout-section {
+
+    .cart-items-section,
+    .checkout-section {
         width: 100%;
+    }
+
+    .cart-items-list {
+        max-height: none;
+    }
+
+    .checkout-section {
+        position: sticky;
+        bottom: 0;
+        z-index: 10;
+    }
+}
+
+@media (max-width: 768px) {
+    .cart-container {
+        margin-top: 80px;
+        padding: 0 16px;
+        margin-bottom: 24px;
+    }
+
+    .cart-items-section,
+    .checkout-section {
+        padding: 16px;
+        border-radius: 16px;
+    }
+
+    .cart-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .cart-item {
+        flex-wrap: wrap;
+        padding: 12px 40px 12px 12px;
+    }
+
+    .cart-item-name {
+        font-size: 17px;
+    }
+
+    .cart-item-delete {
+        top: 10px;
+        right: 10px;
+        min-width: 44px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .cart-item-quantity button {
+        width: 36px;
+        height: 36px;
+    }
+
+    .payment-icons img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .order-btn {
+        min-height: 48px;
+        font-size: 18px;
+    }
+
+    .modal-content {
+        width: min(340px, 92vw);
+        padding: 24px 16px;
+    }
+
+    .modal-buttons {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .modal-buttons button {
+        width: 100%;
+        min-height: 44px;
+    }
+}
+
+@media (max-width: 480px) {
+    .cart-item-img {
+        width: 56px;
+        height: 56px;
+    }
+
+    .total-price {
+        font-size: 20px;
+        flex-wrap: wrap;
+        gap: 8px;
     }
 }

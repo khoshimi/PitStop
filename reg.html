@@ -2,9 +2,10 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Регистрация | Pit-Stop</title>
     <link rel="stylesheet" href="5_reg/style.css">
+    <link rel="stylesheet" href="responsive-shared.css">
 </head>
 <body>
     <section>
@@ -241,48 +242,39 @@
                 e.preventDefault();
                 registerError.textContent = '';
                 registerError.style.color = '#ff6b6b';
-                
                 const name = document.getElementById('registerName').value.trim();
                 const phone = document.getElementById('registerPhone').value.trim();
                 const password = document.getElementById('registerPassword').value;
                 const termsAgree = document.getElementById('registerTermsAgree').checked;
                 const dataAgree = document.getElementById('registerDataAgree').checked;
-                
                 if (!name) {
                     registerError.textContent = 'Введите имя';
                     return;
                 }
-                
                 if (name.length < 2) {
                     registerError.textContent = 'Имя должно содержать минимум 2 символа';
                     return;
                 }
-                
                 if (!phone) {
                     registerError.textContent = 'Введите номер телефона';
                     return;
                 }
-                
                 if (!validatePhone(phone)) {
                     registerError.textContent = 'Введите корректный номер телефона (например: +7 999 123-45-67)';
                     return;
                 }
-
                 if (!password || password.length < 6) {
                     registerError.textContent = 'Пароль не короче 6 символов';
                     return;
                 }
-                
                 if (!termsAgree) {
                     registerError.textContent = 'Необходимо согласиться с условиями пользования';
                     return;
                 }
-                
                 if (!dataAgree) {
                     registerError.textContent = 'Необходимо дать согласие на обработку персональных данных';
                     return;
                 }
-                
                 try {
                     const data = await apiPost('/api/auth/register', { name, phone, password });
                     const user = data.user;

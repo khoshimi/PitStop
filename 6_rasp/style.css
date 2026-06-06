@@ -19,16 +19,30 @@
     box-sizing: border-box;
 }
 
-body {
-    background-color: #1A1A1A;
-}
-.fon {
-    width: 100%;
-    height: 645px;
-    position: relative;
-    overflow: hidden;
+:root {
+    --pit-red: #7D0000;
+    --pit-dark: #1A1A1A;
+    --pit-muted: #BFBFBF;
+    --pit-border: rgba(125, 0, 0, 0.3);
+    --page-pad: clamp(16px, 4vw, 48px);
+    --card-radius: 20px;
+    --header-h: 72px;
 }
 
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    background-color: var(--pit-dark);
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
 .video {
     position: absolute;
     top: 0;
@@ -93,7 +107,7 @@ body {
     width: 100%;
     background-color: rgba(26, 26, 26, 0.85);
     backdrop-filter: blur(8px);
-    padding: 12px 5%;
+    padding: max(12px, env(safe-area-inset-top)) 5% 12px;
     z-index: 1000;
 }
 
@@ -309,16 +323,6 @@ body {
     visibility: visible;
 }
 
-/* ========== ФОН С ИЗОБРАЖЕНИЕМ ========== */
-.fon {
-    width: 100%;
-    height: 645px;
-    background-color: #1a1a1a;
-    position: relative;
-    overflow: hidden;
-    margin-top: 80px;
-}
-
 .fon-image {
     position: absolute;
     top: 0;
@@ -364,17 +368,21 @@ body {
 
 /* ========== ОСНОВНОЕ СОДЕРЖАНИЕ ========== */
 .gran_pri {
-    margin-top: 50px;
-    margin-left: 5%;
-    margin-right: 5%;
+    margin: clamp(32px, 5vw, 50px) 5% 0;
+    padding: var(--page-pad);
+    background: linear-gradient(160deg, rgba(125, 0, 0, 0.14) 0%, rgba(26, 26, 26, 0.95) 55%);
+    border: 1px solid var(--pit-border);
+    border-radius: var(--card-radius);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
 }
 
 .zag_gp {
     font-family: 'Zag';
-    font-size: 64px;
-    color: #7D0000;
-    margin-top: 0px;
+    font-size: clamp(28px, 5vw, 64px);
+    color: var(--pit-red);
+    margin-top: 0;
     text-transform: uppercase;
+    line-height: 1.05;
 }
 
 .kanopka {
@@ -387,8 +395,8 @@ body {
 }
 
 button {
-    width: 350px;
-    height: 51px;
+    width: min(350px, 100%);
+    min-height: 51px;
     border: 2px solid #7D0000;
     border-radius: 10px;
     background-color: transparent;
@@ -411,23 +419,22 @@ button:hover {
 
 .avstriya_zag {
     font-family: 'Zag';
-    font-size: 59px;
-    color: #7D0000;
+    font-size: clamp(26px, 4.5vw, 59px);
+    color: var(--pit-red);
+    line-height: 1.1;
 }
 
 .avstriya_etapy {
     font-family: 'osn';
-    font-size: 32px;
+    font-size: clamp(18px, 2.5vw, 32px);
     color: #ffffff;
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 .avstriya_data {
     font-family: 'osn';
-    font-size: 48px;
+    font-size: clamp(22px, 3.5vw, 48px);
     color: #ffffff;
-    margin-left: 400px;
-
 }
 
 hr {
@@ -462,11 +469,25 @@ hr {
 .blok {
     display: flex;
     justify-content: space-between;
-    gap: 30px;
-    margin-top: 50px;
+    gap: clamp(20px, 3vw, 30px);
+    margin-top: clamp(32px, 5vw, 50px);
     margin-left: 5%;
     margin-right: 5%;
     flex-wrap: wrap;
+}
+
+.blok > div {
+    flex: 1 1 calc(50% - 15px);
+    min-width: min(100%, 320px);
+    padding: clamp(16px, 2.5vw, 24px);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--pit-border);
+    border-radius: var(--card-radius);
+    transition: border-color 0.25s ease, transform 0.25s ease;
+}
+
+.blok > div:hover {
+    border-color: rgba(125, 0, 0, 0.55);
 }
 
 .blok img {
@@ -499,22 +520,23 @@ hr {
 
 .round_zag {
     font-family: 'Zag';
-    font-size: 36px;
-    color: #7D0000;
+    font-size: clamp(22px, 3vw, 36px);
+    color: var(--pit-red);
+    line-height: 1.1;
 }
 
 .round_etapy {
     font-family: 'osn';
-    font-size: 24px;
+    font-size: clamp(16px, 2vw, 24px);
     color: #ffffff;
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 .round_data {
     font-family: 'osn';
-    font-size: 24px;
+    font-size: clamp(18px, 2.2vw, 24px);
     color: #ffffff;
-    
+    white-space: nowrap;
 }
 
 .daty {
@@ -531,145 +553,68 @@ hr {
     color: #545454;
     margin-bottom: 2px;
 }
-.round_datatoch{
+.round_datatoch {
     margin-top: 17px;
     font-family: 'osn';
-    color: #7D0000;
-    font-size: 24px;
-}
-.blok{
-    display: flex;
-}
-/* ========== АДАПТИВНОСТЬ ========== */
-@media (max-width: 1024px) {
-    .main-nav {
-        gap: 20px;
-    }
-    .main-nav a {
-        font-size: 18px;
-    }
-    .logo img {
-        height: 35px;
-    }
-    .zag_gp {
-        font-size: 48px;
-    }
-    .avstriya_zag {
-        font-size: 32px;
-    }
-    .avstriya_etapy {
-        font-size: 28px;
-    }
-    .avstriya_data {
-        font-size: 36px;
-    }
-    .slide-up-text p {
-        font-size: 56px;
-    }
+    color: var(--pit-red);
+    font-size: clamp(18px, 2vw, 24px);
 }
 
-@media (max-width: 768px) {
-    .main-nav {
-        display: none;
-    }
-    .slide-up-text p {
-        font-size: 36px;
-    }
-    .zag_gp {
-        font-size: 36px;
-        text-align: center;
-    }
-    .kanopka {
-        flex-direction: column;
-        text-align: center;
-    }
-    .avstriya {
-        flex-direction: column;
-        text-align: center;
-    }
-    .daty {
-        flex-direction: column;
-        text-align: center;
-    }
-    .blok {
-        flex-direction: column;
-        align-items: center;
-    }
-    .blok-last {
-        margin-bottom: 50px;
-    }
-    .burger-container {
-        width: 44px;
-        height: 44px;
-        top: 15px;
-        right: 15px;
-    }
-    .menu-toggle {
-        width: 44px;
-        height: 44px;
-        top: 15px;
-        right: 15px;
-    }
+.avstriya img,
+.round img {
+    width: clamp(48px, 8vw, 72px);
+    height: auto;
+    flex-shrink: 0;
+    object-fit: contain;
 }
 
-@media (max-width: 480px) {
-    .slide-up-text p {
-        font-size: 24px;
-    }
-    .zag_gp {
-        font-size: 28px;
-    }
-    .avstriya_zag {
-        font-size: 24px;
-    }
-    .avstriya_etapy {
-        font-size: 20px;
-    }
-    .avstriya_data {
-        font-size: 28px;
-    }
-    .time {
-        font-size: 22px;
-    }
-    button {
-        width: 280px;
-        font-size: 16px;
-    }
-}
-
-.pogoda{
+.pogoda {
     display: flex;
     justify-content: space-between;
-    padding-left: 5%;
-    padding-right: 5%;
-    flex-wrap: wrap;
-    border-top: 3px solid #7D0000;
     align-items: center;
+    gap: clamp(24px, 4vw, 48px);
+    padding: clamp(32px, 5vw, 60px) 5%;
+    flex-wrap: wrap;
+    border-top: 3px solid var(--pit-red);
 }
-.pogoda_zag{
-    font-size: 96px;
+
+.pogoda > div {
+    flex: 1 1 280px;
+}
+
+.pogoda_zag {
+    font-size: clamp(36px, 8vw, 96px);
     font-family: 'Zag';
-    color: #7D0000;
+    color: var(--pit-red);
+    line-height: 1;
 }
-.pogoda_podzag{
-    font-size: 48px;
+
+.pogoda_podzag {
+    font-size: clamp(22px, 4vw, 48px);
     font-family: 'osn';
     color: #ffffff;
+    margin-top: 8px;
 }
-.har{
-    font-size: 36px;
+
+.har {
+    font-size: clamp(16px, 2.5vw, 36px);
     font-family: 'osn';
     color: #ffffff;
-    margin-top: 33px;
+    margin-top: clamp(16px, 3vw, 33px);
+    line-height: 1.45;
 }
-.sov{
-    font-size: 36px;
+
+.sov {
+    font-size: clamp(16px, 2.5vw, 36px);
     font-family: 'osn';
-    color: #7D0000;
-    margin-top: 9px;
+    color: var(--pit-red);
+    margin-top: 12px;
 }
-.pogoda img{
-    margin-top: 61px;
+
+.pogoda img {
+    flex: 0 1 clamp(180px, 35vw, 420px);
+    margin-top: 0;
+    object-fit: contain;
 }
 .menu-footer {
     background: #1A1A1A;
@@ -979,12 +924,6 @@ hr {
     min-height: 80px;        /* при необходимости задайте высоту */
 }
 
-/* Флаг и текстовая группа */
-.round img {
-    display: block;
-
-}
-
 .round > div {
     display: flex;
     flex-direction: column;
@@ -1009,10 +948,6 @@ hr {
     min-height: 100px;
 }
 
-.avstriya img {
-    width: auto;
-}
-
 .avstriya > div {
     display: flex;
     flex-direction: column;
@@ -1029,9 +964,10 @@ hr {
 .fon {
     position: relative;
     width: 100%;
-    height: 645px;
+    height: clamp(420px, 55vh, 645px);
     overflow: hidden;
-    margin-top: 80px;
+    margin-top: var(--header-h);
+    background-color: var(--pit-dark);
 }
 .fon-bg {
     position: absolute;
@@ -1062,12 +998,15 @@ hr {
 }
 .fon-text h6 {
     font-family: 'Zag', sans-serif;
-    font-size: 96px;
+    font-size: clamp(32px, 7vw, 96px);
     margin-bottom: 20px;
+    line-height: 1.05;
 }
 .fon-text p {
     font-family: 'osn', sans-serif;
-    font-size: 40px;
+    font-size: clamp(15px, 2.8vw, 40px);
+    line-height: 1.35;
+    color: var(--pit-muted);
 }
 .fon-charles {
     max-height: 90%;
@@ -1086,40 +1025,428 @@ hr {
     0% { opacity: 0; transform: translateX(100px); }
     100% { opacity: 1; transform: translateX(0); }
 }
-/* Адаптив для мобильных */
-@media (max-width: 768px) {
-    .fon-content {
-        flex-direction: column;
-        justify-content: center;
-        text-align: center;
-        gap: 20px;
+/* ========== АДАПТИВНОСТЬ ========== */
+
+/* Планшеты и небольшие ноутбуки */
+@media (max-width: 1200px) {
+    #main-header {
+        padding: 12px 4%;
     }
-    .fon-text {
-        max-width: 90%;
+
+    .main-nav {
+        gap: 18px;
     }
-    .fon-text h6 {
-        font-size: 48px;
+
+    .main-nav a {
+        font-size: 17px;
     }
-    .fon-text p {
-        font-size: 18px;
+
+    .blok > div {
+        flex: 1 1 calc(50% - 12px);
     }
-    .fon-charles {
-        max-height: 40%;
-    }
-    @keyframes slideInLeft {
-        0% { opacity: 0; transform: translateY(-50px); }
-        100% { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes slideInRight {
-        0% { opacity: 0; transform: translateY(50px); }
-        100% { opacity: 1; transform: translateY(0); }
+
+    .filters select,
+    .filters button {
+        font-size: 20px;
     }
 }
-@media (max-width: 480px) {
-    .fon-text h6 {
-        font-size: 32px;
+
+@media (max-width: 1024px) {
+    .logo img {
+        height: 36px;
     }
-    .fon-text p {
-        font-size: 14px;
+
+    .fon {
+        height: clamp(420px, 55vh, 580px);
+        margin-top: var(--header-h);
+    }
+
+    .blok > div {
+        flex: 1 1 100%;
+    }
+
+    .zone-card {
+        min-width: 140px;
+    }
+}
+
+/* Планшеты вертикально */
+@media (max-width: 900px) {
+    .main-nav {
+        display: none;
+    }
+
+    #main-header {
+        padding-right: calc(4% + 56px);
+    }
+
+    .header-container {
+        gap: 12px;
+    }
+
+    .kanopka {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+        gap: 16px;
+    }
+
+    .kanopka a {
+        width: 100%;
+    }
+
+    .kanopka button {
+        width: 100%;
+    }
+
+    .gran_pri .daty,
+    .blok .daty {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+    }
+
+    .data1 {
+        background: rgba(0, 0, 0, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 14px;
+        padding: 14px 16px;
+        min-width: 0;
+    }
+
+    .filters {
+        gap: 12px;
+    }
+
+    .filters select,
+    .filters button {
+        flex: 1 1 calc(50% - 6px);
+        min-width: 140px;
+        font-size: 18px;
+    }
+
+    .modal-booking-content {
+        width: 94%;
+        padding: 20px 16px;
+        max-height: 92vh;
+        border-radius: 16px;
+    }
+
+    .booking-form label {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .booking-form input {
+        width: 100%;
+    }
+
+    .zones-container {
+        flex-direction: column;
+    }
+
+    .zone-card {
+        min-width: 100%;
+    }
+}
+
+/* Смартфоны */
+@media (max-width: 768px) {
+    :root {
+        --header-h: 64px;
+    }
+
+    #main-header {
+        padding: 10px 16px;
+        padding-right: 68px;
+    }
+
+    .logo img {
+        height: 32px;
+    }
+
+    .burger-container,
+    .menu-toggle {
+        width: 44px;
+        height: 44px;
+        top: max(12px, env(safe-area-inset-top));
+        right: max(12px, env(safe-area-inset-right));
+    }
+
+    .nav-menu {
+        max-width: 100%;
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .fon {
+        height: auto;
+        min-height: clamp(360px, 72vh, 520px);
+    }
+
+    .fon-content {
+        flex-direction: column;
+        justify-content: flex-end;
+        text-align: center;
+        gap: 12px;
+        padding: 24px 16px 16px;
+    }
+
+    .fon-text {
+        max-width: 100%;
+        transform: translateY(30px);
+        animation-name: slideInUpMobile;
+    }
+
+    .fon-charles {
+        max-height: min(38vh, 280px);
+        margin-bottom: 0;
+        transform: translateY(30px);
+        animation-name: slideInUpMobile;
+    }
+
+    @keyframes slideInUpMobile {
+        0% { opacity: 0; transform: translateY(30px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .gran_pri {
+        margin-left: 16px;
+        margin-right: 16px;
+        padding: 20px 16px;
+        border-radius: 16px;
+    }
+
+    .blok {
+        margin-left: 16px;
+        margin-right: 16px;
+        gap: 20px;
+    }
+
+    .blok > div {
+        padding: 16px;
+    }
+
+    .round,
+    .avstriya {
+        flex-wrap: wrap;
+        align-items: flex-start;
+        padding-right: 0;
+        min-height: auto;
+        gap: 12px;
+    }
+
+    .round .round_data,
+    .avstriya .avstriya_data {
+        position: static;
+        width: 100%;
+        text-align: left;
+        margin-top: 4px;
+        padding-top: 8px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .gran_pri .daty,
+    .blok .daty {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        gap: 12px;
+        padding-bottom: 6px;
+        margin-bottom: 24px;
+        scrollbar-width: thin;
+        scrollbar-color: var(--pit-red) transparent;
+    }
+
+    .gran_pri .daty::-webkit-scrollbar,
+    .blok .daty::-webkit-scrollbar {
+        height: 4px;
+    }
+
+    .gran_pri .daty::-webkit-scrollbar-thumb,
+    .blok .daty::-webkit-scrollbar-thumb {
+        background: var(--pit-red);
+        border-radius: 4px;
+    }
+
+    .data1 {
+        flex: 0 0 min(260px, 82vw);
+        scroll-snap-align: start;
+    }
+
+    .time,
+    .round_time {
+        font-size: 15px;
+    }
+
+    .filters {
+        flex-direction: column;
+        align-items: stretch;
+        margin: 20px 0 8px;
+    }
+
+    .filters select,
+    .filters button {
+        width: 100%;
+        flex: none;
+    }
+
+    .pogoda {
+        flex-direction: column;
+        text-align: center;
+        padding: 32px 16px;
+    }
+
+    .pogoda img {
+        width: min(280px, 80%);
+        margin: 0 auto;
+    }
+
+    .menu-footer {
+        padding: 40px 16px 24px;
+        padding-bottom: calc(24px + env(safe-area-inset-bottom));
+    }
+
+    .footer-container {
+        grid-template-columns: 1fr 1fr;
+        gap: 28px;
+    }
+
+    .hall-scheme {
+        padding: 14px 10px;
+    }
+
+    .screen-area,
+    .order-desk {
+        font-size: 16px;
+        padding: 10px;
+    }
+
+    .table-item {
+        min-width: 62px;
+        padding: 10px 6px;
+    }
+
+    .single-tables {
+        gap: 10px;
+    }
+}
+
+/* Маленькие смартфоны */
+@media (max-width: 480px) {
+    .zag_gp {
+        letter-spacing: 0.02em;
+    }
+
+    button {
+        font-size: 16px;
+        min-height: 48px;
+    }
+
+    .round {
+        padding-bottom: 10px;
+    }
+
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .footer-column h3 {
+        margin-bottom: 12px;
+    }
+
+    .close-modal {
+        top: 10px;
+        right: 14px;
+        font-size: 32px;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-booking-content h2,
+    .modal-booking-content h3 {
+        font-size: clamp(18px, 5vw, 24px);
+        padding-right: 36px;
+    }
+}
+
+/* Очень узкие экраны */
+@media (max-width: 360px) {
+    .gran_pri,
+    .blok {
+        margin-left: 12px;
+        margin-right: 12px;
+    }
+
+    .data1 {
+        flex: 0 0 88vw;
+    }
+
+    .fon-text h6 {
+        font-size: 28px;
+    }
+}
+
+/* Ландшафт на телефоне */
+@media (max-height: 500px) and (orientation: landscape) {
+    .fon {
+        min-height: 100vh;
+    }
+
+    .fon-content {
+        flex-direction: row;
+        text-align: left;
+        align-items: center;
+    }
+
+    .fon-text {
+        max-width: 55%;
+    }
+
+    .fon-charles {
+        max-height: 75vh;
+    }
+
+    .modal-booking {
+        align-items: flex-start;
+        padding: 8px 0;
+    }
+
+    .modal-booking-content {
+        max-height: 96vh;
+        margin-top: 8px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Крупные экраны — ограничение ширины контента */
+@media (min-width: 1400px) {
+    .gran_pri,
+    .blok,
+    .pogoda {
+        max-width: 1320px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .gran_pri {
+        width: calc(100% - 10%);
     }
 }

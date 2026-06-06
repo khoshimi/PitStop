@@ -166,9 +166,18 @@ async function addReviewViaApi(name, message) {
     if (!name.trim() || !message.trim()) {
         return false;
     }
+    const token = localStorage.getItem('pitstop_token');
+    if (!token) {
+        alert('Чтобы оставить отзыв, войдите в аккаунт');
+        window.location.href = 'reg.html';
+        return false;
+    }
     const res = await fetch('/api/reviews', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token
+        },
         body: JSON.stringify({ name: name.trim(), text: message.trim() })
     });
     if (!res.ok) {
@@ -232,4 +241,47 @@ document.addEventListener('DOMContentLoaded', async function() {
             }
         });
     }
+});
+
+app.post('/api/auth/register', async (req, res) => {
+  try {
+    const name = String(req.body?.name || '').trim();
+    const phone = normalizePhone(req.body?.phone || '');
+    const password = String(req.body?.password || '');
+
+    // Расширенная валидация входных данных
+    if (name.length < 2) {
+      return res.status(400).json({ error: 'Имя должно быть не короче 2 символов' });
+    }
+    if (name.length > 100) {
+      return res.status(400).json({ error: 'Имя не должно превышать 100 символов' });
+    }
+    if (phone.length !== 11 || phone[0] !== '7') {
+      return res.status(400).json({ error: 'Некорректный номер телефона' });
+    }
+    if (password.length < 6) {
+      return res.status(400).json({ error: 'Пароль не короче 6 символов' });
+    }
+    if (password.length > 128) {
+      return res.status(400).json({ error: 'Пароль не должен превышать 128 символов' });
+    }
+
+    const existing = await User.findOne({ where: { phone } });
+    if (existing) {
+      return res.status(409).json({ error: 'Пользователь с таким номером уже зарегистрирован' });
+    }
+
+    const passwordHash = await bcrypt.hash(password, BCRYPT_ROUNDS);
+    const user = await User.create({
+      name,
+      phone,
+      passwordHash,
+      role: 'user'
+    });
+    await getOrCreateCart(user.id);
+    res.status(201).json({ user: userPublic(user), token: signToken(user) });
+  } catch (e) {
+    console.error('Registration error:', e);
+    res.status(500).json({ error: 'Внутренняя ошибка сервера. Попробуйте позже.' });
+  }
 });

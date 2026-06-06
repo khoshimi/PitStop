@@ -645,6 +645,83 @@ body {
     }
 }
 
+@media (max-width: 900px) {
+    .hero-carousel {
+        height: clamp(380px, 55vh, 500px);
+        margin-top: var(--header-h, 72px);
+    }
+
+    .carousel-content {
+        padding: 0 20px;
+    }
+
+    .sovet {
+        margin-bottom: 60px;
+        padding: 0 16px;
+        position: relative;
+    }
+
+    .sovet_text {
+        align-items: center;
+        text-align: center;
+    }
+
+    .sovet_zag {
+        font-size: clamp(28px, 7vw, 56px);
+        margin-right: 0 !important;
+    }
+
+    .sovet_t {
+        font-size: clamp(16px, 3vw, 24px);
+        margin-right: 0 !important;
+        margin-bottom: 32px;
+    }
+
+    .strela,
+    .strela1 {
+        width: 100% !important;
+        max-width: 400px;
+        margin-right: 0 !important;
+        flex-wrap: wrap;
+        justify-content: center !important;
+        gap: 12px;
+        font-size: 18px;
+    }
+
+    .strela button,
+    .strela1 button {
+        width: 100%;
+        max-width: 220px;
+        min-height: 44px;
+    }
+
+    .leclerc {
+        position: relative;
+        right: auto;
+        top: auto;
+        display: block;
+        max-width: min(260px, 65vw);
+        margin: 32px auto 0;
+    }
+
+    .pdf-wrapper {
+        padding: 0 16px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .pdf-btn {
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+    }
+
+    .carousel-btn {
+        width: 44px;
+        height: 44px;
+    }
+}
+
 @media (max-width: 480px) {
     .burger-container {
         width: 44px;
@@ -659,7 +736,7 @@ body {
         right: 15px;
     }
     .hero-carousel {
-        height: 350px;
+        height: clamp(300px, 48vh, 380px);
     }
     .carousel-content h1 {
         font-size: 32px;

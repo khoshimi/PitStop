@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Админ-панель | Pit-Stop</title>
   <link rel="stylesheet" href="admin/admin.css">
 </head>
@@ -11,40 +11,121 @@
     <h1>Админ-панель Pit-Stop</h1>
     <div class="admin-actions">
       <a href="glav.html" class="btn btn-ghost">На главную</a>
-      <a href="o_nas.html" class="btn btn-ghost">Отзывы на сайте</a>
       <button type="button" id="admin-logout" class="btn btn-primary">Выйти</button>
     </div>
   </header>
 
   <div class="admin-wrap">
     <div id="admin-flash" class="flash hidden" role="status"></div>
-    <section class="admin-section">
-      <h2>Пользователи</h2>
-      <table class="admin-table" id="users-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Имя</th>
-            <th>Телефон</th>
-            <th>Роль</th>
-            <th>Регистрация</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </section>
+    
+    <!-- Навигация по разделам (табы) -->
+    <nav class="admin-nav">
+      <a href="#" data-tab="users" class="admin-nav-link active">Пользователи</a>
+      <a href="#" data-tab="gp" class="admin-nav-link">Гран-при</a>
+      <a href="#" data-tab="orders" class="admin-nav-link">Заказы</a>
+      <a href="#" data-tab="bookings" class="admin-nav-link">Бронирования</a>
+      <a href="#" data-tab="reviews" class="admin-nav-link">Отзывы</a>
+      <a href="#" data-tab="news" class="admin-nav-link">Новости</a>
+    </nav>
 
-    <section class="admin-section">
-      <h2>Отзывы (редактирование)</h2>
-      <p class="muted" style="margin-top:0">Изменения отображаются на странице «О нас».</p>
-      <div id="reviews-admin"></div>
-    </section>
+    <!-- Таб: Пользователи -->
+    <div id="tab-users" class="admin-tab active">
+      <section class="admin-section">
+        <h2>Пользователи</h2>
+        <table class="admin-table" id="users-table">
+          <thead>
+            <tr><th>ID</th><th>Имя</th><th>Телефон</th><th>Роль</th><th>Баллы</th><th>Регистрация</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+    </div>
 
-    <section class="admin-section">
-      <h2>Акции на главной</h2>
-      <p class="muted" style="margin-top:0">Три баннера в блоке «Акции и предложения» на <a href="glav.html" style="color:#9aa0a6">главной</a>.</p>
-      <div class="promo-grid" id="promo-admin"></div>
-    </section>
+    <!-- Таб: Гран-при -->
+    <div id="tab-gp" class="admin-tab">
+      <section class="admin-section">
+        <h2>Ближайший Гран-при (главная страница)</h2>
+        <div class="gp-control">
+          <div class="news-form-row">
+            <label>Название Гран-при (страна)</label>
+            <input type="text" id="gp-name" placeholder="Например: Япония, Сузука">
+          </div>
+          <div class="news-form-row">
+            <label>Номер этапа</label>
+            <input type="number" id="gp-round" placeholder="16">
+          </div>
+          <div class="news-form-row">
+            <label>Дата и время старта Гран-при (для таймера)</label>
+            <input type="datetime-local" id="gp-start-date">
+            <p class="muted">Таймер на главной будет показывать время до этого момента</p>
+          </div>
+          <div class="news-form-row">
+            <label>Флаг страны (маленькая иконка)</label>
+            <input type="file" id="gp-flag-input" accept="image/*">
+            <div id="gp-flag-preview" class="gp-preview"></div>
+          </div>
+          <div class="news-form-row">
+            <label>Превью-изображение (большая картинка справа в блоке)</label>
+            <input type="file" id="gp-bg-input" accept="image/*">
+            <div id="gp-bg-preview" class="gp-preview"></div>
+          </div>
+          <div class="gp-current-info" id="gp-current-info">
+            <p><strong>Текущие настройки:</strong></p>
+            <p>Гран-при: <span id="current-gp-name">—</span></p>
+            <p>Этап: <span id="current-gp-round">—</span></p>
+            <p>Старт: <span id="current-gp-start">—</span></p>
+            <p class="countdown-preview" id="countdown-preview"></p>
+          </div>
+          <button id="save-gp-btn" class="btn btn-primary">Сохранить настройки Гран-при</button>
+        </div>
+      </section>
+    </div>
+
+    <!-- Таб: Заказы -->
+    <div id="tab-orders" class="admin-tab">
+      <section class="admin-section">
+        <h2>Заказы</h2>
+        <table class="admin-table" id="orders-table">
+          <thead>
+            <tr><th>ID</th><th>Пользователь</th><th>Сумма</th><th>Статус</th><th>Позиции</th><th>Действие</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+    </div>
+
+    <!-- Таб: Бронирования -->
+    <div id="tab-bookings" class="admin-tab">
+      <section class="admin-section">
+        <h2>Бронирования</h2>
+        <table class="admin-table" id="bookings-table">
+          <thead>
+            <tr><th>ID</th><th>Пользователь</th><th>Стол</th><th>Дата</th><th>Статус</th><th>Действие</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+    </div>
+
+    <!-- Таб: Отзывы -->
+    <div id="tab-reviews" class="admin-tab">
+      <section class="admin-section">
+        <h2>Отзывы</h2>
+        <p class="muted">Изменения отображаются на странице «О нас».</p>
+        <button id="add-review-btn" class="btn btn-primary" style="margin-bottom: 20px;">+ Добавить отзыв</button>
+        <div id="reviews-admin"></div>
+      </section>
+    </div>
+
+    <!-- Таб: Новости -->
+    <div id="tab-news" class="admin-tab">
+      <section class="admin-section">
+        <h2>Новости и акции</h2>
+        <p class="muted">Новости отображаются на главной странице.</p>
+        <button id="add-news-btn" class="btn btn-primary" style="margin-bottom: 20px;">+ Добавить новость</button>
+        <div id="news-admin"></div>
+      </section>
+    </div>
   </div>
 
   <script src="admin/admin.js"></script>

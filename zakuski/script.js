@@ -103,6 +103,29 @@ const detailView = document.getElementById('detailView');
 const detailContent = document.getElementById('detailContent');
 const backBtn = document.getElementById('backBtn');
 
+function parsePriceToNumber(priceText) {
+    return Number(String(priceText || '').replace(/[^\d]/g, '')) || 0;
+}
+
+async function addItemToServerCart(title, price, imageUrl) {
+    const token = localStorage.getItem('pitstop_token');
+    if (!token) {
+        alert('Сначала войдите в аккаунт');
+        window.location.href = 'reg.html';
+        return;
+    }
+    const res = await fetch('/api/cart/items/custom', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token
+        },
+        body: JSON.stringify({ title, price, quantity: 1, imageUrl: imageUrl || null })
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || 'Ошибка добавления в корзину');
+}
+
 // ==================== СКРЫТИЕ/ПОКАЗ ====================
 function hideAllExceptDetail() {
     menuSections.forEach(section => section.style.display = 'none');
@@ -165,9 +188,14 @@ function showProductDetail(productId) {
     
     const orderBtn = detailContent.querySelector('.detail-order-btn');
     if (orderBtn) {
-        orderBtn.addEventListener('click', (e) => {
+        orderBtn.addEventListener('click', async (e) => {
             e.stopPropagation();
-            alert(`Товар "${p.name}" добавлен в корзину`);
+            try {
+                await addItemToServerCart(p.name, parsePriceToNumber(p.price), p.detailImage);
+                alert(`Товар "${p.name}" добавлен в корзину`);
+            } catch (err) {
+                alert(err.message);
+            }
         });
     }
 }
@@ -190,12 +218,18 @@ backBtn.addEventListener('click', backToMenu);
 
 // ==================== НАВЕШИВАНИЕ ОБРАБОТЧИКОВ НА КАРТОЧКИ ====================
 document.querySelectorAll('.card').forEach(card => {
-    card.addEventListener('click', (e) => {
+    card.addEventListener('click', async (e) => {
         if (e.target.tagName === 'BUTTON') {
             e.stopPropagation();
             const productId = card.getAttribute('data-id');
             const product = products[productId];
-            alert(`Товар "${product ? product.name : 'Блюдо'}" добавлен в корзину`);
+            try {
+                if (!product) throw new Error('Блюдо не найдено');
+                await addItemToServerCart(product.name, parsePriceToNumber(product.price), product.detailImage);
+                alert(`Товар "${product.name}" добавлен в корзину`);
+            } catch (err) {
+                alert(err.message);
+            }
             return;
         }
         // Определяем, в какой секции находится карточка
@@ -230,11 +264,16 @@ window.addEventListener('click', (e) => {
     if (e.target === extraModal) extraModal.style.display = 'none';
 });
 document.querySelectorAll('#extraModal .garnish-options button').forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', async () => {
         const extraName = btn.getAttribute('data-extra');
         const price = btn.getAttribute('data-price');
-        alert(`Добавлено: "${extraName}" (${price}₽)`);
-        extraModal.style.display = 'none';
+        try {
+            await addItemToServerCart(extraName, Number(price || 0), null);
+            alert(`Добавлено: "${extraName}" (${price}₽)`);
+            extraModal.style.display = 'none';
+        } catch (err) {
+            alert(err.message);
+        }
     });
 });
 

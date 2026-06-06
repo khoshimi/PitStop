@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Корзина | Pit-Stop</title>
     <link rel="stylesheet" href="korz/style.css">
+    <link rel="stylesheet" href="responsive-shared.css">
 </head>
 <body>
     <header id="main-header">
@@ -50,9 +51,9 @@
             <a href="zackus.html" class="nav-item">Закуски</a>
             <a href="eda.html" class="nav-item">Еда</a>
             <p class="zagbur"><b>Работа</b></p>
-            <a href="bar.html" class="nav-item">Бариста</a>
-            <a href="povar.html" class="nav-item">Повар</a>
-            <a href="ofic.html" class="nav-item">Официант</a>
+            <a href="rab.html" class="nav-item">Бариста</a>
+            <a href="rab.html" class="nav-item">Повар</a>
+            <a href="rab.html" class="nav-item">Официант</a>
         </div>
     </div>
     <label for="menuToggle" class="overlay"></label>
@@ -91,6 +92,21 @@
             <div class="table-number">
                 <label>Номер столика</label>
                 <input type="number" id="tableNumber" placeholder="Введите номер столика">
+            </div>
+            <div class="table-number">
+                <label>Номер карты</label>
+                <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000">
+            </div>
+            <div class="table-number">
+                <label>Срок действия (месяц / год)</label>
+                <div style="display:flex;gap:8px;">
+                    <input type="number" id="cardMonth" min="1" max="12" placeholder="MM">
+                    <input type="number" id="cardYear" min="2024" max="2100" placeholder="YYYY">
+                </div>
+            </div>
+            <div class="table-number">
+                <label>CVC</label>
+                <input type="password" id="cardCvc" placeholder="123">
             </div>
             <div class="total-price">
                 <span>Итого:</span>
@@ -132,9 +148,9 @@
             </div>
             <div class="footer-column">
                 <h3>Работа</h3>
-                <a href="bar.html">Бариста</a>
-                <a href="povar.html">Повар</a>
-                <a href="ofic.html">Официант</a>
+                <a href="rab.html">Бариста</a>
+                <a href="rab.html">Повар</a>
+                <a href="rab.html">Официант</a>
             </div>
             <div class="footer-column">
                 <h3>Контакты</h3>

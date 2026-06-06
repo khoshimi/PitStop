@@ -430,30 +430,66 @@ button:active {
     color: #7D0000;
 }
 
-/* Адаптация для мобильных */
-@media (max-width: 480px) {
+/* ========== АДАПТИВНОСТЬ ========== */
+@media (max-width: 768px) {
+    section {
+        min-height: 100dvh;
+        padding: calc(var(--header-h, 64px) + 16px) 16px 24px;
+        align-items: flex-start;
+        padding-top: max(80px, calc(env(safe-area-inset-top) + 72px));
+    }
+
     .form-box {
-        width: 90%;
+        width: min(378px, 100%);
+        padding: 24px 20px;
+    }
+
+    h2 {
+        font-size: clamp(28px, 7vw, 40px);
+    }
+
+    .inputbox {
+        width: 100%;
+        max-width: 310px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    button {
+        min-height: 48px;
+        width: 100%;
+        max-width: 310px;
+    }
+}
+
+@media (max-width: 480px) {
+    section {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .form-box {
+        width: 100%;
         padding: 20px 15px;
         min-height: auto;
     }
-    
+
     .inputbox {
         width: 100%;
     }
-    
+
     h2 {
         font-size: 1.5em;
         margin-bottom: 20px;
     }
-    
+
     .checkbox-text {
         font-size: 0.75em;
     }
-    
+
     button {
-        height: 40px;
-        font-size: 0.9em;
+        height: 48px;
+        font-size: 0.95em;
     }
 }
 p{

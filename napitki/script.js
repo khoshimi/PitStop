@@ -97,6 +97,29 @@ const detailView = document.getElementById('detailView');
 const detailContent = document.getElementById('detailContent');
 const backBtn = document.getElementById('backBtn');
 
+function parsePriceToNumber(priceText) {
+    return Number(String(priceText || '').replace(/[^\d]/g, '')) || 0;
+}
+
+async function addItemToServerCart(title, price, imageUrl) {
+    const token = localStorage.getItem('pitstop_token');
+    if (!token) {
+        alert('Сначала войдите в аккаунт');
+        window.location.href = 'reg.html';
+        return;
+    }
+    const res = await fetch('/api/cart/items/custom', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token
+        },
+        body: JSON.stringify({ title, price, quantity: 1, imageUrl: imageUrl || null })
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || 'Ошибка добавления в корзину');
+}
+
 // ==================== СКРЫТИЕ/ПОКАЗ ====================
 function hideAllExceptDetail() {
     menuSections.forEach(section => section.style.display = 'none');
@@ -157,9 +180,14 @@ function showProductDetail(productId) {
     
     const orderBtn = detailContent.querySelector('.detail-order-btn');
     if (orderBtn) {
-        orderBtn.addEventListener('click', (e) => {
+        orderBtn.addEventListener('click', async (e) => {
             e.stopPropagation();
-            alert(`Товар "${p.name}" добавлен в корзину`);
+            try {
+                await addItemToServerCart(p.name, parsePriceToNumber(p.price), p.detailImage);
+                alert(`Товар "${p.name}" добавлен в корзину`);
+            } catch (err) {
+                alert(err.message);
+            }
         });
     }
 }
@@ -183,12 +211,18 @@ backBtn.addEventListener('click', backToMenu);
 // ==================== ОБРАБОТЧИКИ ДЛЯ ВСЕХ КАРТОЧЕК ====================
 // Для обычных карточек (лимонады, коктейли) – открываем детальную карточку
 document.querySelectorAll('.card:not([data-id="hot_tea_coffee"]):not([data-id="juice_mors"])').forEach(card => {
-    card.addEventListener('click', (e) => {
+    card.addEventListener('click', async (e) => {
         if (e.target.tagName === 'BUTTON') {
             e.stopPropagation();
             const productId = card.getAttribute('data-id');
             const product = products[productId];
-            alert(`Товар "${product ? product.name : 'Напиток'}" добавлен в корзину`);
+            try {
+                if (!product) throw new Error('Напиток не найден');
+                await addItemToServerCart(product.name, parsePriceToNumber(product.price), product.detailImage);
+                alert(`Товар "${product.name}" добавлен в корзину`);
+            } catch (err) {
+                alert(err.message);
+            }
             return;
         }
         let parentH6 = card.closest('#menuList')?.querySelector('h6');
@@ -270,20 +304,30 @@ if (juiceCard) {
 // Выбор опции в модалке кофе/чая
 const coffeeOptions = coffeeTeaModal?.querySelectorAll('.garnish-options button');
 coffeeOptions?.forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', async () => {
         const selected = btn.getAttribute('data-item');
-        alert(`Вы заказали: ${selected}`);
-        closeModal(coffeeTeaModal);
+        try {
+            await addItemToServerCart(selected, 190, null);
+            alert(`Добавлено в корзину: ${selected}`);
+            closeModal(coffeeTeaModal);
+        } catch (err) {
+            alert(err.message);
+        }
     });
 });
 
 // Выбор опции в модалке соков/морсов
 const juiceOptions = juiceModal?.querySelectorAll('.garnish-options button');
 juiceOptions?.forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', async () => {
         const selected = btn.getAttribute('data-item');
-        alert(`Вы заказали: ${selected}`);
-        closeModal(juiceModal);
+        try {
+            await addItemToServerCart(selected, 220, null);
+            alert(`Добавлено в корзину: ${selected}`);
+            closeModal(juiceModal);
+        } catch (err) {
+            alert(err.message);
+        }
     });
 });
 

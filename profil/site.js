@@ -1,363 +1,209 @@
-// ========== РАБОТА С ПОЛЬЗОВАТЕЛЯМИ (localStorage) ==========
-
-function formatPhoneRu(phone) {
-    const d = String(phone || '').replace(/\D/g, '');
-    if (d.length === 11 && d[0] === '7') {
-        return '+7 (' + d.slice(1, 4) + ') ' + d.slice(4, 7) + '-' + d.slice(7, 9) + '-' + d.slice(9, 11);
-    }
-    return phone || '';
+function getToken() {
+    return localStorage.getItem('pitstop_token');
 }
 
 function getCurrentUser() {
-    const userJson = localStorage.getItem('pitstop_current_user');
-    if (!userJson) return null;
     try {
-        return JSON.parse(userJson);
-    } catch(e) {
+        return JSON.parse(localStorage.getItem('pitstop_current_user') || 'null');
+    } catch {
         return null;
     }
 }
 
-function setCurrentUser(user) {
-    if (user) {
-        localStorage.setItem('pitstop_current_user', JSON.stringify(user));
-    } else {
-        localStorage.removeItem('pitstop_current_user');
-    }
-}
-
-function getAllUsers() {
-    const usersJson = localStorage.getItem('pitstop_users');
-    if (!usersJson) return [];
+function formatDate(dateStr) {
+    if (!dateStr) return '';
     try {
-        return JSON.parse(usersJson);
-    } catch(e) {
-        return [];
+        return new Date(dateStr).toLocaleString('ru-RU');
+    } catch {
+        return dateStr;
     }
 }
 
-function saveUser(user) {
-    const users = getAllUsers();
-    const existingIndex = users.findIndex(u => u.phone === user.phone);
-    if (existingIndex >= 0) {
-        users[existingIndex] = user;
-    } else {
-        users.push(user);
-    }
-    localStorage.setItem('pitstop_users', JSON.stringify(users));
+function escapeHtml(str) {
+    return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
 }
 
-function getUserApplications(phone) {
-    const appsJson = localStorage.getItem(`pitstop_applications_${phone}`);
-    if (!appsJson) return [];
-    try {
-        return JSON.parse(appsJson);
-    } catch(e) {
-        return [];
-    }
+async function api(path, options) {
+    const res = await fetch(path, options);
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || 'Ошибка сервера');
+    return data;
 }
 
-function saveApplication(phone, application) {
-    const apps = getUserApplications(phone);
-    const newApp = {
-        id: Date.now(),
-        ...application,
-        status: 'pending',
-        createdAt: new Date().toISOString()
-    };
-    apps.push(newApp);
-    localStorage.setItem(`pitstop_applications_${phone}`, JSON.stringify(apps));
-    return newApp;
+function bookingStatusText(status) {
+    if (status === 'approved') return '✓ Одобрено';
+    if (status === 'rejected') return '✗ Отклонено';
+    if (status === 'cancelled') return 'Отменено';
+    return '⏳ Ожидает рассмотрения';
 }
 
-// ========== СТРАНИЦА ПРОФИЛЯ ==========
-
-document.addEventListener('DOMContentLoaded', function() {
+async function renderProfileFromApi() {
     const layout = document.getElementById('profile-layout');
     const emptyBlock = document.getElementById('profile-empty');
     const logoutBtn = document.getElementById('logout-btn');
     const linesContainer = document.getElementById('profile-lines');
+    const applicationsList = document.getElementById('applications-list');
     const avatarImg = document.getElementById('profile-avatar');
     const avatarInput = document.getElementById('avatar-input');
-    const applicationsList = document.getElementById('applications-list');
 
-    function renderProfile() {
-        const currentUser = getCurrentUser();
-        
-        if (!currentUser) {
-            if (layout) layout.style.display = 'none';
-            if (emptyBlock) emptyBlock.style.display = 'block';
-            if (logoutBtn) logoutBtn.style.display = 'none';
-            return;
-        }
-        
+    if (!getToken()) {
+        if (layout) layout.style.display = 'none';
+        if (emptyBlock) emptyBlock.style.display = 'block';
+        if (logoutBtn) logoutBtn.style.display = 'none';
+        return;
+    }
+
+    try {
+        const profile = await api('/api/profile', {
+            headers: { Authorization: 'Bearer ' + getToken() }
+        });
+        localStorage.setItem('pitstop_current_user', JSON.stringify(profile.user));
         if (layout) layout.style.display = 'flex';
         if (emptyBlock) emptyBlock.style.display = 'none';
         if (logoutBtn) logoutBtn.style.display = 'block';
-        
-        // Заполняем данные пользователя
+
         if (linesContainer) {
-            linesContainer.innerHTML = '';
-            
-            function addLine(label, value) {
-                const row = document.createElement('div');
-                row.className = 'profile-line-row';
-                row.innerHTML = `
-                    <div class="profile-line-label">${label}</div>
-                    <div class="profile-line-value">${escapeHtml(value || '')}</div>
+            linesContainer.innerHTML = `
+                <div class="profile-line-row">
+                    <div class="profile-line-label">Имя</div>
+                    <div class="profile-line-value">${escapeHtml(profile.user.name)}</div>
                     <div class="profile-line-underline"></div>
-                `;
-                linesContainer.appendChild(row);
-            }
-            
-            addLine('Имя', currentUser.name);
-            addLine('Телефон', formatPhoneRu(currentUser.phone));
+                </div>
+                <div class="profile-line-row">
+                    <div class="profile-line-label">Телефон</div>
+                    <div class="profile-line-value">${escapeHtml(profile.user.phoneDisplay || profile.user.phone)}</div>
+                    <div class="profile-line-underline"></div>
+                </div>
+                <div class="profile-line-row">
+                    <div class="profile-line-label">Баллы лояльности</div>
+                    <div class="profile-line-value">${escapeHtml(profile.user.loyaltyPoints)}</div>
+                    <div class="profile-line-underline"></div>
+                </div>
+            `;
         }
-        
-        // Загружаем аватар
-        if (avatarImg) {
-            const savedAvatar = localStorage.getItem(`pitstop_avatar_${currentUser.phone}`);
-            if (savedAvatar) {
-                avatarImg.src = savedAvatar;
-            } else {
-                avatarImg.src = '1_glav/logo.png';
-            }
-        }
-        
-        // Загружаем заявки пользователя
+
         if (applicationsList) {
-            const applications = getUserApplications(currentUser.phone);
             applicationsList.innerHTML = '';
-            
-            if (applications.length === 0) {
-                const li = document.createElement('li');
-                li.className = 'muted';
-                li.textContent = 'Нет забронированного столика.';
-                applicationsList.appendChild(li);
+            if (!profile.bookings.length) {
+                applicationsList.innerHTML = '<li class="muted">Нет забронированного столика.</li>';
             } else {
-                applications.reverse().forEach(function(app) {
+                profile.bookings.forEach((b) => {
                     const li = document.createElement('li');
                     li.className = 'list-item';
-                    const statusText = getStatusText(app.status);
                     li.innerHTML = `
                         <div class="list-item-top">
-                            <span class="bold">${escapeHtml(app.direction)}</span>
-                            <span class="muted">${formatDate(app.date || app.createdAt)}</span>
+                            <span class="bold">Столик #${escapeHtml(b.tableNumber)}</span>
+                            <span class="muted">${escapeHtml(formatDate(b.bookingAt))}</span>
                         </div>
-                        <div class="list-item-status status-${app.status}">${statusText}</div>
-                        ${app.comment ? `<p class="muted comment-text">${escapeHtml(app.comment)}</p>` : ''}
+                        <div class="list-item-status status-${escapeHtml(b.status)}">${bookingStatusText(b.status)}</div>
+                        ${b.comment ? `<p class="muted comment-text">${escapeHtml(b.comment)}</p>` : ''}
+                    `;
+                    applicationsList.appendChild(li);
+                });
+            }
+            if (profile.orders?.length) {
+                const divider = document.createElement('li');
+                divider.className = 'muted';
+                divider.style.marginTop = '12px';
+                divider.textContent = 'Последние заказы:';
+                applicationsList.appendChild(divider);
+                profile.orders.slice(0, 3).forEach((o) => {
+                    const li = document.createElement('li');
+                    li.className = 'list-item';
+                    li.innerHTML = `
+                        <div class="list-item-top">
+                            <span class="bold">Заказ #${escapeHtml(o.id)}</span>
+                            <span class="muted">${escapeHtml(formatDate(o.createdAt))}</span>
+                        </div>
+                        <div class="list-item-status">Сумма: ${escapeHtml(o.total)} ₽</div>
                     `;
                     applicationsList.appendChild(li);
                 });
             }
         }
-    }
-    
-    function getStatusText(status) {
-        switch(status) {
-            case 'approved': return '✓ Одобрено';
-            case 'rejected': return '✗ Отклонено';
-            default: return '⏳ Ожидает рассмотрения';
-        }
-    }
-    
-    function formatDate(dateStr) {
-        if (!dateStr) return '';
-        try {
-            const date = new Date(dateStr);
-            return date.toLocaleDateString('ru-RU', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric'
-            });
-        } catch(e) {
-            return dateStr;
-        }
-    }
-    
-    function escapeHtml(str) {
-        if (!str) return '';
-        return str
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#39;');
-    }
-    
-    // Выход из аккаунта
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', function() {
-            setCurrentUser(null);
-            localStorage.removeItem('pitstop_remembered');
-            localStorage.removeItem('pitstop_token');
-            renderProfile();
-        });
-    }
-    
-    // Смена аватара
-    if (avatarInput) {
-        avatarInput.addEventListener('change', function(e) {
-            const file = e.target.files && e.target.files[0];
-            if (!file) return;
-            
-            const currentUser = getCurrentUser();
-            if (!currentUser) {
-                alert('Сначала войдите в аккаунт');
-                return;
+
+        if (avatarImg) {
+            const key = `pitstop_avatar_${profile.user.phone}`;
+            const savedAvatar = localStorage.getItem(key);
+            avatarImg.src = savedAvatar || '1_glav/logo.png';
+            if (avatarInput) {
+                avatarInput.onchange = function(e) {
+                    const file = e.target.files && e.target.files[0];
+                    if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = function(evt) {
+                        localStorage.setItem(key, evt.target.result);
+                        avatarImg.src = evt.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                };
             }
-            
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                const avatarData = evt.target.result;
-                localStorage.setItem(`pitstop_avatar_${currentUser.phone}`, avatarData);
-                if (avatarImg) avatarImg.src = avatarData;
-                alert('Фото профиля обновлено!');
-            };
-            reader.readAsDataURL(file);
-        });
-    }
-    
-    // Инициализация
-    renderProfile();
-});
-
-// ========== ОБРАБОТКА ЗАЯВОК НА СТРАНИЦАХ ТИПА ar.html ==========
-
-function initApplicationForm() {
-    const applicationForm = document.getElementById('application-form');
-    if (!applicationForm) return;
-    
-    const params = new URLSearchParams(window.location.search);
-    const fromDirection = params.get('direction');
-    const directionInput = document.getElementById('app-direction');
-    
-    const directionMap = {
-        'adult-vocal': 'Взрослый вокал',
-        guitar: 'Гитара',
-        podcast: 'Подкаст',
-        drums: 'Барабаны',
-        electronic: 'Электронная музыка',
-        'kids-vocal': 'Детский вокал'
-    };
-    
-    if (directionInput && fromDirection && directionMap[fromDirection]) {
-        directionInput.value = directionMap[fromDirection];
-    }
-    
-    applicationForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const currentUser = getCurrentUser();
-        if (!currentUser) {
-            alert('Чтобы оформить заявку, сначала войдите в систему');
-            window.location.href = 'reg.html';
-            return;
         }
-        
-        const direction = directionInput ? directionInput.value.trim() : '';
-        const dateValue = document.getElementById('app-date').value;
-        const comment = document.getElementById('app-comment') ? document.getElementById('app-comment').value.trim() : '';
-        
-        if (!direction || !dateValue) {
-            alert('Пожалуйста, заполните направление и дату.');
-            return;
-        }
-        
-        const application = {
-            direction: direction,
-            date: dateValue,
-            comment: comment
-        };
-        
-        saveApplication(currentUser.phone, application);
-        alert('Заявка отправлена! Вы можете посмотреть её в профиле.');
-        window.location.href = 'profil.html';
+    } catch (err) {
+        console.error(err);
+        localStorage.removeItem('pitstop_token');
+        localStorage.removeItem('pitstop_current_user');
+        if (layout) layout.style.display = 'none';
+        if (emptyBlock) emptyBlock.style.display = 'block';
+    }
+}
+
+function initLogout() {
+    const logoutBtn = document.getElementById('logout-btn');
+    if (!logoutBtn) return;
+    logoutBtn.addEventListener('click', function() {
+        localStorage.removeItem('pitstop_current_user');
+        localStorage.removeItem('pitstop_remembered');
+        localStorage.removeItem('pitstop_token');
+        window.location.reload();
     });
 }
 
-// ========== ОБРАБОТКА ОТЗЫВОВ ==========
-
-function initReviews() {
-    const feedbackForm = document.getElementById('feedback-form');
-    const feedbackList = document.getElementById('feedback-list');
-    
-    // Загрузка отзывов
-    function loadReviews() {
-        if (!feedbackList) return;
-        
-        const reviewsJson = localStorage.getItem('pitstop_reviews');
-        let reviews = [];
-        if (reviewsJson) {
-            try {
-                reviews = JSON.parse(reviewsJson);
-            } catch(e) {}
+function initApplicationForm() {
+    const form = document.getElementById('application-form');
+    if (!form) return;
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        if (!getToken()) {
+            alert('Чтобы оформить бронь, войдите в систему');
+            window.location.href = 'reg.html';
+            return;
         }
-        
-        feedbackList.innerHTML = '';
-        reviews.forEach(function(rev) {
-            const li = document.createElement('li');
-            li.className = 'feedback-item';
-            li.innerHTML = `
-                <p class="feedback-author">${escapeHtml(rev.name)}</p>
-                <p class="feedback-text">${escapeHtml(rev.text)}</p>
-            `;
-            feedbackList.appendChild(li);
-        });
-    }
-    
-    if (feedbackForm) {
-        feedbackForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const nameInput = document.getElementById('fb-name');
-            const textInput = document.getElementById('fb-text');
-            const name = (nameInput ? nameInput.value.trim() : 'Аноним') || 'Аноним';
-            const text = textInput ? textInput.value.trim() : '';
-            
-            if (!text) {
-                alert('Пожалуйста, напишите текст отзыва.');
-                return;
-            }
-            
-            const reviewsJson = localStorage.getItem('pitstop_reviews');
-            let reviews = [];
-            if (reviewsJson) {
-                try {
-                    reviews = JSON.parse(reviewsJson);
-                } catch(e) {}
-            }
-            
-            const newReview = {
-                id: Date.now(),
-                name: name,
-                text: text,
-                date: new Date().toISOString()
-            };
-            
-            reviews.unshift(newReview);
-            localStorage.setItem('pitstop_reviews', JSON.stringify(reviews));
-            
-            if (feedbackList) {
-                const li = document.createElement('li');
-                li.className = 'feedback-item';
-                li.innerHTML = `
-                    <p class="feedback-author">${escapeHtml(newReview.name)}</p>
-                    <p class="feedback-text">${escapeHtml(newReview.text)}</p>
-                `;
-                feedbackList.insertBefore(li, feedbackList.firstChild);
-            }
-            
-            if (feedbackForm) feedbackForm.reset();
-            alert('Спасибо за ваш отзыв!');
-        });
-    }
-    
-    loadReviews();
+        const tableNumber = Number(document.getElementById('app-direction')?.value || 0) || 1;
+        const dateValue = document.getElementById('app-date')?.value;
+        const comment = document.getElementById('app-comment')?.value || '';
+        if (!dateValue) {
+            alert('Выберите дату и время');
+            return;
+        }
+        try {
+            await api('/api/bookings', {
+                method: 'POST',
+                headers: {
+                    Authorization: 'Bearer ' + getToken(),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    tableNumber,
+                    bookingAt: dateValue,
+                    comment
+                })
+            });
+            alert('Бронь создана');
+            window.location.href = 'profil.html';
+        } catch (err) {
+            alert(err.message);
+        }
+    });
 }
 
-// Запускаем инициализацию
 document.addEventListener('DOMContentLoaded', function() {
+    initLogout();
     initApplicationForm();
-    initReviews();
+    renderProfileFromApi();
 });
