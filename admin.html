@@ -26,6 +26,7 @@
       <a href="#" data-tab="bookings" class="admin-nav-link">Бронирования</a>
       <a href="#" data-tab="reviews" class="admin-nav-link">Отзывы</a>
       <a href="#" data-tab="news" class="admin-nav-link">Новости</a>
+      <a href="#" data-tab="chat" class="admin-nav-link">Чат-бот</a>
     </nav>
 
     <!-- Таб: Пользователи -->
@@ -124,6 +125,27 @@
         <p class="muted">Новости отображаются на главной странице.</p>
         <button id="add-news-btn" class="btn btn-primary" style="margin-bottom: 20px;">+ Добавить новость</button>
         <div id="news-admin"></div>
+      </section>
+    </div>
+
+    <!-- Таб: Чат-бот -->
+    <div id="tab-chat" class="admin-tab">
+      <section class="admin-section">
+        <h2>Вопросы чат-помощника</h2>
+        <p class="muted">Сообщения пользователей и ответы GigaChat. Обновляется при открытии вкладки.</p>
+        <button type="button" id="refresh-chat-btn" class="btn btn-ghost" style="margin-bottom: 16px;">Обновить</button>
+        <table class="admin-table" id="chat-table">
+          <thead>
+            <tr>
+              <th>Дата</th>
+              <th>Пользователь</th>
+              <th>Вопрос</th>
+              <th>Ответ</th>
+              <th>Страница</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
       </section>
     </div>
   </div>

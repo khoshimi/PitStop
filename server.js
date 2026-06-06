@@ -176,6 +176,22 @@ const News = sequelize.define('News', {
   image: { type: DataTypes.STRING, allowNull: true }
 });
 
+const ChatSession = sequelize.define('ChatSession', {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  publicId: { type: DataTypes.STRING(36), unique: true, allowNull: false },
+  pageUrl: { type: DataTypes.STRING(300), allowNull: true }
+});
+
+const ChatMessage = sequelize.define('ChatMessage', {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  role: { type: DataTypes.STRING(20), allowNull: false },
+  content: { type: DataTypes.TEXT, allowNull: false },
+  pageUrl: { type: DataTypes.STRING(300), allowNull: true }
+});
+
+const { chatCompletion } = require('./services/gigachat');
+const { buildSystemPrompt } = require('./services/chat-context');
+
 // Связи
 MenuCategory.hasMany(MenuItem, { foreignKey: 'categoryId', onDelete: 'CASCADE' });
 MenuItem.belongsTo(MenuCategory, { foreignKey: 'categoryId' });
@@ -205,6 +221,10 @@ Order.hasMany(LoyaltyTransaction, { foreignKey: 'orderId' });
 LoyaltyTransaction.belongsTo(Order, { foreignKey: 'orderId' });
 User.hasMany(Review, { foreignKey: 'userId', onDelete: 'SET NULL' });
 Review.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(ChatSession, { foreignKey: 'userId', onDelete: 'SET NULL' });
+ChatSession.belongsTo(User, { foreignKey: 'userId' });
+ChatSession.hasMany(ChatMessage, { foreignKey: 'sessionId', onDelete: 'CASCADE' });
+ChatMessage.belongsTo(ChatSession, { foreignKey: 'sessionId' });
 
 // Вспомогательные функции
 function normalizePhone(phone) {
@@ -238,6 +258,46 @@ async function requireAuth(req, res, next) {
     req.jwt = payload;
     next();
   } catch { res.status(401).json({ error: 'Сессия недействительна, войдите снова' }); }
+}
+
+async function optionalAuth(req, _res, next) {
+  const token = getToken(req);
+  if (!token) return next();
+  try {
+    const payload = jwt.verify(token, JWT_SECRET);
+    const user = await User.findByPk(payload.sub);
+    if (user) req.user = user;
+  } catch { /* гость */ }
+  next();
+}
+
+async function getOrCreateChatSession(publicId, userId, pageUrl) {
+  if (publicId) {
+    const existing = await ChatSession.findOne({ where: { publicId } });
+    if (existing) {
+      if (userId && !existing.userId) await existing.update({ userId });
+      if (pageUrl && existing.pageUrl !== pageUrl) await existing.update({ pageUrl });
+      return existing;
+    }
+  }
+  return ChatSession.create({
+    publicId: publicId || crypto.randomUUID(),
+    userId: userId || null,
+    pageUrl: pageUrl || null
+  });
+}
+
+async function getUserBookingsForChat(userId) {
+  if (!userId) return [];
+  return TableBooking.findAll({
+    where: { userId, status: { [Op.in]: ['pending', 'approved'] } },
+    order: [['bookingAt', 'ASC']],
+    limit: 10
+  });
+}
+
+function normalizeChatMessage(row) {
+  return { id: row.id, role: row.role, content: row.content, pageUrl: row.pageUrl, createdAt: row.createdAt };
 }
 
 function requireAdmin(req, res, next) {
@@ -403,6 +463,83 @@ app.get('/api/reviews', async (_req, res) => { try { const rows = await Review.f
 app.post('/api/reviews', requireAuth, async (req, res) => { const text = String(req.body?.text || '').trim(); const name = String(req.body?.name || req.user.name).trim() || req.user.name; if (!text) return res.status(400).json({ error: 'Введите текст отзыва' }); const row = await Review.create({ userId: req.user.id, name, text, displayDate: ruDisplayDate(new Date()) }); res.status(201).json(normalizeReview(row)); });
 app.get('/api/promos', async (_req, res) => { const row = await PromoBanner.findByPk(1); if (!row) return res.json({ urls: [...DEFAULT_PROMO_URLS] }); res.json({ urls: [row.image1 || DEFAULT_PROMO_URLS[0], row.image2 || DEFAULT_PROMO_URLS[1], row.image3 || DEFAULT_PROMO_URLS[2]] }); });
 
+// ========== ЧАТ-ПОМОЩНИК (GigaChat) ==========
+app.get('/api/chat/history', optionalAuth, async (req, res) => {
+  try {
+    const publicId = String(req.query.sessionId || '').trim();
+    if (!publicId) return res.json({ messages: [] });
+    const session = await ChatSession.findOne({ where: { publicId } });
+    if (!session) return res.json({ messages: [] });
+    if (req.user && session.userId && session.userId !== req.user.id) {
+      return res.status(403).json({ error: 'Нет доступа к этой сессии' });
+    }
+    const messages = await ChatMessage.findAll({
+      where: { sessionId: session.id, role: { [Op.in]: ['user', 'assistant'] } },
+      order: [['id', 'ASC']],
+      limit: 40
+    });
+    res.json({ sessionId: session.publicId, messages: messages.map(normalizeChatMessage) });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+app.post('/api/chat', optionalAuth, async (req, res) => {
+  try {
+    const message = String(req.body?.message || '').trim();
+    const pageUrl = String(req.body?.pageUrl || '').slice(0, 300);
+    let publicId = String(req.body?.sessionId || '').trim();
+    if (!message) return res.status(400).json({ error: 'Введите сообщение' });
+    if (message.length > 2000) return res.status(400).json({ error: 'Слишком длинное сообщение' });
+
+    const session = await getOrCreateChatSession(publicId, req.user?.id, pageUrl);
+    publicId = session.publicId;
+
+    await ChatMessage.create({
+      sessionId: session.id,
+      role: 'user',
+      content: message,
+      pageUrl: pageUrl || null
+    });
+
+    const history = await ChatMessage.findAll({
+      where: { sessionId: session.id, role: { [Op.in]: ['user', 'assistant'] } },
+      order: [['id', 'ASC']],
+      limit: 20
+    });
+
+    const bookings = req.user ? await getUserBookingsForChat(req.user.id) : [];
+    const systemPrompt = buildSystemPrompt({
+      user: req.user ? userPublic(req.user) : null,
+      bookings
+    });
+
+    const gigaMessages = [
+      { role: 'system', content: systemPrompt },
+      ...history.map((m) => ({ role: m.role, content: m.content }))
+    ];
+
+    let reply;
+    try {
+      reply = await chatCompletion(gigaMessages);
+    } catch (err) {
+      console.error('GigaChat error:', err.message);
+      reply = 'Сейчас не могу связаться с ассистентом. По бронированию: откройте bron.html, войдите в аккаунт и выберите сессию гонки на схеме зала. Меню — в разделах eda.html, napitki.html, zackus.html.';
+    }
+
+    await ChatMessage.create({
+      sessionId: session.id,
+      role: 'assistant',
+      content: reply,
+      pageUrl: pageUrl || null
+    });
+
+    res.json({ sessionId: publicId, reply });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 // ========== АДМИН-ЭНДПОИНТЫ ==========
 app.get('/api/admin/users', requireAuth, requireAdmin, async (_req, res) => { const users = await User.findAll({ attributes: ['id', 'name', 'phone', 'role', 'loyaltyPoints', 'createdAt'], order: [['id', 'ASC']] }); res.json(users); });
 app.get('/api/admin/orders', requireAuth, requireAdmin, async (_req, res) => { const orders = await Order.findAll({ include: [{ model: User, attributes: ['id', 'name', 'phone'] }, { model: OrderItem }], order: [['id', 'DESC']], limit: 100 }); res.json(orders); });
@@ -423,6 +560,47 @@ app.get('/api/admin/news', requireAuth, requireAdmin, async (_req, res) => { con
 app.post('/api/admin/news', requireAuth, requireAdmin, async (req, res) => { const { date, title, excerpt, image } = req.body; const news = await News.create({ date, title, excerpt, image: image || null }); res.status(201).json(news); });
 app.put('/api/admin/news/:id', requireAuth, requireAdmin, uploadNews.single('image'), async (req, res) => { const news = await News.findByPk(Number(req.params.id)); if (!news) return res.status(404).json({ error: 'Новость не найдена' }); const { date, title, excerpt } = req.body; let image = news.image; if (req.file) image = `/uploads/news/${req.file.filename}`; await news.update({ date, title, excerpt, image }); res.json(news); });
 app.delete('/api/admin/news/:id', requireAuth, requireAdmin, async (req, res) => { const news = await News.findByPk(Number(req.params.id)); if (!news) return res.status(404).json({ error: 'Новость не найдена' }); await news.destroy(); res.json({ ok: true }); });
+
+app.get('/api/admin/chat', requireAuth, requireAdmin, async (_req, res) => {
+  try {
+    const userMessages = await ChatMessage.findAll({
+      where: { role: 'user' },
+      include: [{
+        model: ChatSession,
+        include: [{ model: User, attributes: ['id', 'name', 'phone'] }]
+      }],
+      order: [['id', 'DESC']],
+      limit: 150
+    });
+
+    const items = [];
+    for (const userMsg of userMessages) {
+      const assistantMsg = await ChatMessage.findOne({
+        where: {
+          sessionId: userMsg.sessionId,
+          role: 'assistant',
+          id: { [Op.gt]: userMsg.id }
+        },
+        order: [['id', 'ASC']]
+      });
+      const session = userMsg.ChatSession;
+      const u = session?.User;
+      items.push({
+        id: userMsg.id,
+        sessionId: session?.publicId || '',
+        userName: u ? u.name : 'Гость',
+        userPhone: u ? formatPhoneRu(u.phone) : '—',
+        question: userMsg.content,
+        answer: assistantMsg ? assistantMsg.content : '',
+        pageUrl: userMsg.pageUrl || session?.pageUrl || '',
+        createdAt: userMsg.createdAt
+      });
+    }
+    res.json(items);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
 
 // ========== ПУБЛИЧНЫЕ ЭНДПОИНТЫ ДЛЯ ГЛАВНОЙ СТРАНИЦЫ ==========
 // ========== ПУБЛИЧНЫЕ ЭНДПОИНТЫ ДЛЯ ГЛАВНОЙ СТРАНИЦЫ ==========

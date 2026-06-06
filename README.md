@@ -84,6 +84,16 @@ JWT токен хранится на фронте как `pitstop_token` и пе
 - сохраненные карты (masked)
 - операции по баллам
 
+## Чат-помощник (GigaChat)
+Виджет на всех страницах сайта (кнопка 💬 внизу справа).
+
+- `POST /api/chat` — отправить сообщение (`message`, опционально `sessionId`, `pageUrl`)
+- `GET /api/chat/history?sessionId=...` — история сессии
+- `GET /api/admin/chat` — вопросы и ответы для админки
+
+Ключ GigaChat хранится только в `.env` (`GIGACHAT_CREDENTIALS`), на фронт не передаётся.
+Если пользователь авторизован, бот видит его брони и может отвечать по ним.
+
 ## Отзывы и акции (публично)
 - `GET /api/reviews`
 - `POST /api/reviews` (только авторизованный пользователь)
@@ -101,6 +111,7 @@ JWT токен хранится на фронте как `pitstop_token` и пе
 - `DELETE /api/admin/reviews/:id`
 - `GET /api/admin/promos`
 - `PUT /api/admin/promos` (multipart поля `image0`, `image1`, `image2`)
+- `GET /api/admin/chat` — вопросы чат-бота
 
 ## Админ-панель
 - Страница: `admin.html`
@@ -113,5 +124,8 @@ JWT токен хранится на фронте как `pitstop_token` и пе
 - `ADMIN_PHONE`
 - `ADMIN_NAME`
 - `ADMIN_PASSWORD`
+- `GIGACHAT_CREDENTIALS` — Authorization Key GigaChat
+- `GIGACHAT_SCOPE` — обычно `GIGACHAT_API_PERS`
+- `GIGACHAT_MODEL` — обычно `GigaChat`
 
 При старте сервер синхронизирует админ-пользователя из `.env` (роль, имя, пароль).

@@ -70,6 +70,7 @@
         if (tabId === 'bookings') loadBookings();
         if (tabId === 'gp') loadGpSettings();
         if (tabId === 'users') loadUsers();
+        if (tabId === 'chat') loadChat();
       });
     });
   }
@@ -506,6 +507,35 @@
       flash(err.message, false);
     }
   }
+
+  // ========== ЧАТ-БОТ ==========
+  async function loadChat() {
+    const tbody = document.querySelector('#chat-table tbody');
+    if (!tbody) return;
+    tbody.innerHTML = '<tr><td colspan="5" class="muted">Загрузка…</td></tr>';
+    try {
+      const items = await api('/api/admin/chat');
+      if (!items.length) {
+        tbody.innerHTML = '<tr><td colspan="5" class="muted">Пока нет вопросов</td></tr>';
+        return;
+      }
+      tbody.innerHTML = items.map(function (row) {
+        const dt = row.createdAt ? new Date(row.createdAt).toLocaleString('ru-RU') : '—';
+        const userLabel = escapeHtml(row.userName) + (row.userPhone && row.userPhone !== '—' ? '<br><span class="muted">' + escapeHtml(row.userPhone) + '</span>' : '');
+        return '<tr>' +
+          '<td>' + escapeHtml(dt) + '</td>' +
+          '<td>' + userLabel + '</td>' +
+          '<td style="max-width:220px">' + escapeHtml(row.question) + '</td>' +
+          '<td style="max-width:280px">' + escapeHtml(row.answer || '—') + '</td>' +
+          '<td><span class="muted">' + escapeHtml(row.pageUrl || '—') + '</span></td>' +
+          '</tr>';
+      }).join('');
+    } catch (err) {
+      tbody.innerHTML = '<tr><td colspan="5" class="muted">' + escapeHtml(err.message) + '</td></tr>';
+    }
+  }
+
+  document.getElementById('refresh-chat-btn')?.addEventListener('click', loadChat);
 
   // ========== ВЫХОД ==========
   document.getElementById('admin-logout')?.addEventListener('click', () => {
