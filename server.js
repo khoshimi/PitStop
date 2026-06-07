@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const crypto = require('crypto');
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
 const { once } = require('events');
 const express = require('express');
@@ -14,17 +15,47 @@ const app = express();
 app.use(express.json({ limit: '2mb' }));
 
 const PORT = Number(process.env.PORT || 3000);
-const DB_STORAGE = process.env.DB_STORAGE || './dev.sqlite';
 const JWT_SECRET = process.env.JWT_SECRET || 'dev-only-change-jwt-secret';
 const BCRYPT_ROUNDS = 10;
 const LOYALTY_EARN_PERCENT = 0.05;
 const LOYALTY_MAX_SPEND_PERCENT = 0.3;
 const DEFAULT_PROMO_URLS = ['/1_glav/Group 54.png', '/1_glav/Group 55.png', '/1_glav/Group 56.png'];
 
+function isWritableDir(dir) {
+  try {
+    fs.mkdirSync(dir, { recursive: true });
+    const probe = path.join(dir, `.write-test-${process.pid}`);
+    fs.writeFileSync(probe, 'ok');
+    fs.unlinkSync(probe);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function resolveStorageRoot() {
+  const configured = process.env.STORAGE_ROOT || process.env.DATA_DIR;
+  const candidates = [
+    configured,
+    path.join(__dirname, '.data'),
+    path.join(os.tmpdir(), 'pitstop')
+  ].filter(Boolean);
+
+  for (const candidate of candidates) {
+    if (isWritableDir(candidate)) return candidate;
+  }
+
+  throw new Error(`No writable storage directory found. Tried: ${candidates.join(', ')}`);
+}
+
+const STORAGE_ROOT = resolveStorageRoot();
+const DB_STORAGE = process.env.DB_STORAGE || path.join(STORAGE_ROOT, 'dev.sqlite');
+const UPLOAD_ROOT = process.env.UPLOAD_ROOT || path.join(STORAGE_ROOT, 'uploads');
+
 // Папки для загрузки
-const UPLOAD_PROMO_DIR = path.join(__dirname, 'uploads', 'promos');
-const UPLOAD_GP_DIR = path.join(__dirname, 'uploads', 'gp');
-const UPLOAD_NEWS_DIR = path.join(__dirname, 'uploads', 'news');
+const UPLOAD_PROMO_DIR = path.join(UPLOAD_ROOT, 'promos');
+const UPLOAD_GP_DIR = path.join(UPLOAD_ROOT, 'gp');
+const UPLOAD_NEWS_DIR = path.join(UPLOAD_ROOT, 'news');
 fs.mkdirSync(UPLOAD_PROMO_DIR, { recursive: true });
 fs.mkdirSync(UPLOAD_GP_DIR, { recursive: true });
 fs.mkdirSync(UPLOAD_NEWS_DIR, { recursive: true });
@@ -626,7 +657,7 @@ app.get('/api/news', async (_req, res) => {
 });
 
 // ========== СТАТИКА ==========
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(UPLOAD_ROOT));
 app.use(express.static(path.join(__dirname)));
 
 app.get('/', (_req, res) => { res.sendFile(path.join(__dirname, 'glav.html')); });
